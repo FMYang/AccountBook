@@ -8,8 +8,18 @@
 import UIKit
 
 let width = kScreenWidth / 5.0
+let selectedColor = UIColor.color(hex: "#FA5252")
+let bgColor = UIColor.color(hex: "#F6F6F6")
 
 class FMAddVC: UIViewController {
+    
+    var expenseDatasource: [TradeCategory] = [.dining, .travel, .redEnvelope, .rent, .entertainment, .payment, .shopping, .transferToOther, .clothing, .daily]
+    var incomeDatasource: [TradeCategory] = [.salary, .fund, .refund, .transferFromOthers, .bond, .cash, .reimbursement, .redEnvelope]
+    var datasource: [FMCategoryModel] = [] {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
     lazy var topView: UIView = {
         let view = UIView()
@@ -56,23 +66,32 @@ class FMAddVC: UIViewController {
     
     lazy var incomeButton: UIButton = {
         let btn = UIButton()
-        btn.backgroundColor = .lightGray.withAlphaComponent(0.5)
+        btn.setBackgroundImage(UIColor.createImage(color: bgColor.withAlphaComponent(0.5)), for: .normal)
+        btn.setBackgroundImage(UIColor.createImage(color: selectedColor.withAlphaComponent(0.2)), for: .selected)
         btn.setTitle("收入", for: .normal)
         btn.setTitleColor(.black, for: .normal)
-        btn.setTitleColor(.red, for: .selected)
+        btn.setTitleColor(selectedColor, for: .selected)
         btn.titleLabel?.font = .systemFont(ofSize: 14)
         btn.layer.cornerRadius = 15
+        btn.layer.masksToBounds = true
+        btn.tag = TradeType.income.rawValue
+        btn.addTarget(self, action: #selector(switchTypeAction(sender:)), for: .touchUpInside)
         return btn
     }()
     
     lazy var expenseButton: UIButton = {
         let btn = UIButton()
-        btn.backgroundColor = .lightGray.withAlphaComponent(0.5)
         btn.setTitle("支出", for: .normal)
+        btn.setBackgroundImage(UIColor.createImage(color: bgColor.withAlphaComponent(0.5)), for: .normal)
+        btn.setBackgroundImage(UIColor.createImage(color: selectedColor.withAlphaComponent(0.2)), for: .selected)
         btn.titleLabel?.font = .systemFont(ofSize: 14)
         btn.setTitleColor(.black, for: .normal)
-        btn.setTitleColor(.red, for: .selected)
-        btn.layer.cornerRadius = 20
+        btn.setTitleColor(selectedColor, for: .selected)
+        btn.layer.cornerRadius = 15
+        btn.layer.masksToBounds = true
+        btn.isSelected = true
+        btn.tag = TradeType.expense.rawValue
+        btn.addTarget(self, action: #selector(switchTypeAction(sender:)), for: .touchUpInside)
         return btn
     }()
     
@@ -87,7 +106,7 @@ class FMAddVC: UIViewController {
     
     lazy var confirmButton: UIButton = {
         let btn = UIButton()
-        btn.setBackgroundImage(UIColor.createImage(color: .red), for: .normal)
+        btn.setBackgroundImage(UIColor.createImage(color: selectedColor), for: .normal)
         btn.setTitle("确定添加", for: .normal)
         btn.setTitleColor(.white, for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 16)
@@ -100,14 +119,28 @@ class FMAddVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "记一笔"
-        view.backgroundColor = .color(hex: "#F6F6F6")
-//        navigationItem.hidesBackButton = true
+        view.backgroundColor = bgColor
+        navigationItem.hidesBackButton = true
+        datasource = FMCategoryModel.datasouce(data: expenseDatasource)
         makeUI()
         addNoti()
     }
     
     func addNoti() {
         NotificationCenter.default.addObserver(self, selector: #selector(textfiledDidChanged), name: UITextField.textDidChangeNotification, object: nil)
+    }
+    
+    @objc func switchTypeAction(sender: UIButton) {
+        let type = TradeType(rawValue: sender.tag)
+        if type == .income {
+            incomeButton.isSelected = true
+            expenseButton.isSelected = false
+            datasource = FMCategoryModel.datasouce(data: incomeDatasource)
+        } else {
+            incomeButton.isSelected = false
+            expenseButton.isSelected = true
+            datasource = FMCategoryModel.datasouce(data: expenseDatasource)
+        }
     }
 
     func makeUI() {
@@ -157,16 +190,16 @@ class FMAddVC: UIViewController {
             make.height.equalTo(monkeyLabel)
         }
         
-        incomeButton.snp.makeConstraints { make in
+        expenseButton.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(20)
             make.top.equalToSuperview().offset(10)
             make.width.equalTo(60)
             make.height.equalTo(30)
         }
         
-        expenseButton.snp.makeConstraints { make in
-            make.left.equalTo(incomeButton.snp.right).offset(10)
-            make.centerY.equalTo(incomeButton)
+        incomeButton.snp.makeConstraints { make in
+            make.left.equalTo(expenseButton.snp.right).offset(10)
+            make.centerY.equalTo(expenseButton)
             make.width.equalTo(60)
             make.height.equalTo(30)
         }
@@ -189,12 +222,12 @@ class FMAddVC: UIViewController {
 
 extension FMAddVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return datasource.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FMCategoryCell
-        cell.textLabel.text = "\(indexPath.row)"
+        cell.config(model: datasource[indexPath.row])
         return cell
     }
 
@@ -209,6 +242,12 @@ extension FMAddVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColle
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0.0
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        datasource.forEach { $0.selected = false }
+        datasource[indexPath.row].selected = true
+        collectionView.reloadData()
+    }
 }
 
 extension FMAddVC {
@@ -220,5 +259,7 @@ extension FMAddVC {
 extension FMAddVC {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         textfield.resignFirstResponder()
+        navigationController?.popViewController(animated: true)
     }
 }
+

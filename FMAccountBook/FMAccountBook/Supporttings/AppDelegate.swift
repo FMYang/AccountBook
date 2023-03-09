@@ -6,14 +6,19 @@
 //
 
 import UIKit
+import DatabaseVisual
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        DatabaseManager.sharedInstance().dbDocumentPath = DBManager.documentDir
+        DBManager.async {
+            let tables = [FMRecord.self]
+            DBManager.create(tables: tables)
+            DBManager.upgrade(tables: tables)
+        }
         return true
     }
 

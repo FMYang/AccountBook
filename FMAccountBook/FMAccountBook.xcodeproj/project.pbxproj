@@ -23,6 +23,9 @@
 		88B828DA29B8751A005F52A8 /* FMRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B828D929B8751A005F52A8 /* FMRecord.swift */; };
 		88B828DD29B88620005F52A8 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B828DC29B88620005F52A8 /* UIColor+Extension.swift */; };
 		88B828E129B8891F005F52A8 /* FMCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B828E029B8891F005F52A8 /* FMCategoryCell.swift */; };
+		88B828E429B98D09005F52A8 /* FMCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B828E329B98D09005F52A8 /* FMCategoryModel.swift */; };
+		88B828E629B99594005F52A8 /* FMAccountBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B828E529B99594005F52A8 /* FMAccountBook.swift */; };
+		88B828EA29B9D569005F52A8 /* FMDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B828E929B9D569005F52A8 /* FMDetailCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +48,9 @@
 		88B828D929B8751A005F52A8 /* FMRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMRecord.swift; sourceTree = "<group>"; };
 		88B828DC29B88620005F52A8 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		88B828E029B8891F005F52A8 /* FMCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMCategoryCell.swift; sourceTree = "<group>"; };
+		88B828E329B98D09005F52A8 /* FMCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMCategoryModel.swift; sourceTree = "<group>"; };
+		88B828E529B99594005F52A8 /* FMAccountBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMAccountBook.swift; sourceTree = "<group>"; };
+		88B828E929B9D569005F52A8 /* FMDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMDetailCell.swift; sourceTree = "<group>"; };
 		9424A18179DA89052ED9C6EA /* Pods_FMAccountBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FMAccountBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -142,7 +148,8 @@
 		88B828C829B83D75005F52A8 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				88B828CC29B840CA005F52A8 /* FMDetalVC.swift */,
+				88B828E829B9D553005F52A8 /* View */,
+				88B828E729B9D54E005F52A8 /* VC */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -160,6 +167,7 @@
 			children = (
 				88B828D129B86D72005F52A8 /* DBManager.swift */,
 				88B828D929B8751A005F52A8 /* FMRecord.swift */,
+				88B828E529B99594005F52A8 /* FMAccountBook.swift */,
 			);
 			path = DB;
 			sourceTree = "<group>";
@@ -176,6 +184,7 @@
 		88B828D629B86F34005F52A8 /* Add */ = {
 			isa = PBXGroup;
 			children = (
+				88B828E229B98CED005F52A8 /* Model */,
 				88B828DF29B88900005F52A8 /* View */,
 				88B828DE29B888FA005F52A8 /* VC */,
 			);
@@ -202,6 +211,30 @@
 			isa = PBXGroup;
 			children = (
 				88B828E029B8891F005F52A8 /* FMCategoryCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		88B828E229B98CED005F52A8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				88B828E329B98D09005F52A8 /* FMCategoryModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		88B828E729B9D54E005F52A8 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				88B828CC29B840CA005F52A8 /* FMDetalVC.swift */,
+			);
+			path = VC;
+			sourceTree = "<group>";
+		};
+		88B828E829B9D553005F52A8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				88B828E929B9D569005F52A8 /* FMDetailCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -330,8 +363,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				88B828E129B8891F005F52A8 /* FMCategoryCell.swift in Sources */,
+				88B828EA29B9D569005F52A8 /* FMDetailCell.swift in Sources */,
+				88B828E629B99594005F52A8 /* FMAccountBook.swift in Sources */,
 				88B828D529B86DBB005F52A8 /* Constant.swift in Sources */,
 				88B828D829B86F43005F52A8 /* FMAddVC.swift in Sources */,
+				88B828E429B98D09005F52A8 /* FMCategoryModel.swift in Sources */,
 				88B828B529B83C99005F52A8 /* ViewController.swift in Sources */,
 				88B828DD29B88620005F52A8 /* UIColor+Extension.swift in Sources */,
 				88B828CD29B840CA005F52A8 /* FMDetalVC.swift in Sources */,
@@ -491,6 +527,7 @@
 				DEVELOPMENT_TEAM = DQFEA2B5H2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FMAccountBook/Supporttings/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "记一笔";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -520,6 +557,7 @@
 				DEVELOPMENT_TEAM = DQFEA2B5H2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FMAccountBook/Supporttings/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "记一笔";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

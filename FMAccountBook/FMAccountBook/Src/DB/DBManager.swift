@@ -29,6 +29,12 @@ class DBManager {
     
     // MARK: - public method
     
+    public static func async(block: @escaping ()->()) {
+        DispatchQueue.global().async {
+            block()
+        }
+    }
+    
     // 创建表
     public static func create<T: DBProtocol>(tables: [T.Type]) {
         tables.forEach { createTable(object: $0) }

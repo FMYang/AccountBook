@@ -11,7 +11,6 @@ class FMCategoryCell: UICollectionViewCell {
     
     lazy var imageView: UIImageView = {
         let view = UIImageView()
-        view.backgroundColor = .gray
         return view
     }()
     
@@ -29,6 +28,12 @@ class FMCategoryCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func config(model: FMCategoryModel) {
+        imageView.image = model.selected ? model.catetory.iconSelected : model.catetory.iconNormal
+        textLabel.text = model.catetory.title
+        textLabel.textColor = model.selected ? selectedColor : .black
     }
     
     func makeUI() {

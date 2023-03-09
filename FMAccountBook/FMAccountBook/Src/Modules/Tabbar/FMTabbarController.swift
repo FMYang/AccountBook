@@ -41,8 +41,6 @@ enum ItemType {
 
     func getController() -> UIViewController {
         let item = UITabBarItem(title: self.itemTitle, image: self.normalImage?.withRenderingMode(.alwaysOriginal), selectedImage: self.selectedImage?.withRenderingMode(.alwaysOriginal))
-        item.setTitleTextAttributes([.foregroundColor : UIColor.gray], for: .normal)
-        item.setTitleTextAttributes([.foregroundColor : UIColor.black], for: .selected)
 
         let vc: UIViewController
         switch self {
@@ -53,6 +51,18 @@ enum ItemType {
         }
         vc.tabBarItem = item
         let nav = UINavigationController(rootViewController: vc)
+        
+        // 设置导航栏背景色
+        let barAppearance = UINavigationBarAppearance()
+        barAppearance.configureWithOpaqueBackground()
+        barAppearance.backgroundColor = bgColor
+        // 隐藏底部线
+        barAppearance.shadowImage = UIImage()
+        barAppearance.shadowColor = nil
+        nav.navigationBar.standardAppearance = barAppearance
+        nav.navigationBar.scrollEdgeAppearance = barAppearance
+        
+        // 设置导航栏不透明
         nav.navigationBar.isTranslucent = false
         return nav
     }
@@ -64,8 +74,20 @@ class FMTabbarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configAppearance()
+        viewControllers = items.map { $0.getController() }
+    }
+    
+    func configAppearance() {
         tabBar.clipsToBounds = true
         tabBar.isTranslucent = false
-        viewControllers = items.map { $0.getController() }
+        
+        // tabbaritem标题选中色
+        let barApp = UITabBarAppearance()
+        let barItemNormal = barApp.stackedLayoutAppearance.normal
+        let barItemSelected = barApp.stackedLayoutAppearance.selected
+        barItemNormal.titleTextAttributes = [.foregroundColor : UIColor.gray]
+        barItemSelected.titleTextAttributes = [.foregroundColor : UIColor.black]
+        tabBar.standardAppearance = barApp
     }
 }
