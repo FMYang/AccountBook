@@ -174,7 +174,7 @@ class FMRecord {
     // 交易id
     var id: Int = 0
     // 交易金额
-    var tradeEamount: Double = 0.0
+    var tradeAmount: Double = 0.0
     // 交易类型
     var tradeType: TradeType = .expense
     // 交易分类
@@ -193,7 +193,7 @@ extension FMRecord: DBProtocol {
     
     static var columns: [[String : String]] {
         return [["id": "integer"],
-                ["tradeEamount": "real"],
+                ["tradeAmount": "real"],
                 ["tradeType": "integer"],
                 ["category": "integer"],
                 ["date": "text"],
@@ -201,17 +201,17 @@ extension FMRecord: DBProtocol {
     }
     
     static var createSql: String {
-        return "create table if not exists \(tableName) (id integer primary key, tradeEamount real, tradeType integer, category integer, date text, accountBookIds text)"
+        return "create table if not exists \(tableName) (id integer primary key, tradeAmount real, tradeType integer, category integer, date text, accountBookIds text)"
     }
     
     var insertSql: String {
-        return "insert or replace into table \(FMRecord.tableName) (tradeEamount, tradeType, category, date, accountBookIds) values (\(tradeEamount), \(tradeType), \(category), '\(date ?? Date())', '\(accountBookIds ?? "")'"
+        return "insert or replace into table \(FMRecord.tableName) (tradeAmount, tradeType, category, date, accountBookIds) values (\(tradeAmount), \(tradeType), \(category), '\(date ?? Date())', '\(accountBookIds ?? "")'"
     }
     
     static func toModel(resultSet: FMResultSet) -> DBProtocol {
         let record = FMRecord()
         record.id = Int(resultSet.int(forColumn: "id"))
-        record.tradeEamount = resultSet.double(forColumn: "tradeEamount")
+        record.tradeAmount = resultSet.double(forColumn: "tradeAmount")
         record.tradeType = TradeType(rawValue: Int(resultSet.int(forColumn: "tradeType"))) ?? .expense
         record.category = TradeCategory(rawValue: Int(resultSet.int(forColumn: "category"))) ?? .dining
         record.date = resultSet.date(forColumn: "date")

@@ -20,6 +20,7 @@ class FMAddVC: UIViewController {
             collectionView.reloadData()
         }
     }
+    var selectedCategory: TradeCategory = .dining
     
     lazy var topView: UIView = {
         let view = UIView()
@@ -113,6 +114,7 @@ class FMAddVC: UIViewController {
         btn.layer.cornerRadius = 20
         btn.layer.masksToBounds = true
         btn.isEnabled = false
+        btn.addTarget(self, action: #selector(confirmAction), for: .touchUpInside)
         return btn
     }()
     
@@ -120,7 +122,7 @@ class FMAddVC: UIViewController {
         super.viewDidLoad()
         title = "记一笔"
         view.backgroundColor = bgColor
-        navigationItem.hidesBackButton = true
+//        navigationItem.hidesBackButton = true
         datasource = FMCategoryModel.datasouce(data: expenseDatasource)
         makeUI()
         addNoti()
@@ -135,12 +137,24 @@ class FMAddVC: UIViewController {
         if type == .income {
             incomeButton.isSelected = true
             expenseButton.isSelected = false
+            selectedCategory = .salary
             datasource = FMCategoryModel.datasouce(data: incomeDatasource)
         } else {
             incomeButton.isSelected = false
             expenseButton.isSelected = true
+            selectedCategory = .dining
             datasource = FMCategoryModel.datasouce(data: expenseDatasource)
         }
+    }
+    
+    @objc func confirmAction() {
+        let record = FMRecord()
+        record.tradeAmount = Double(textfield.text ?? "0.0") ?? 0.0
+        record.category = selectedCategory
+        record.date = Date()
+        record.tradeType = incomeButton.isSelected ? .income : .expense
+        DBManager.async { DBManager.insert(object: record) }
+        navigationController?.popViewController(animated: true)
     }
 
     func makeUI() {
@@ -245,21 +259,24 @@ extension FMAddVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColle
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         datasource.forEach { $0.selected = false }
-        datasource[indexPath.row].selected = true
+        let model = datasource[indexPath.row]
+        model.selected = true
+        selectedCategory = model.catetory
         collectionView.reloadData()
     }
 }
 
 extension FMAddVC {
     @objc func textfiledDidChanged() {
-        confirmButton.isEnabled = (textfield.text?.count ?? 0) > 0
+        let value = Double(textfield.text ?? "0.0") ?? 0.0
+        confirmButton.isEnabled = value > 0
     }
 }
 
-extension FMAddVC {
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        textfield.resignFirstResponder()
-        navigationController?.popViewController(animated: true)
-    }
-}
+//extension FMAddVC {
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        textfield.resignFirstResponder()
+//        navigationController?.popViewController(animated: true)
+//    }
+//}
 
