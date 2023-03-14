@@ -21,6 +21,7 @@ class FMAddVC: UIViewController {
         }
     }
     var selectedCategory: TradeCategory = .dining
+    var addBlock: (()->())?
     
     lazy var topView: UIView = {
         let view = UIView()
@@ -151,10 +152,11 @@ class FMAddVC: UIViewController {
         let record = FMRecord()
         record.tradeAmount = Double(textfield.text ?? "0.0") ?? 0.0
         record.category = selectedCategory
-        record.date = Date()
+        record.date = String.currentDate()
         record.tradeType = incomeButton.isSelected ? .income : .expense
-        DBManager.async { DBManager.insert(object: record) }
+        asyncCall { DBManager.insert(object: record) }
         navigationController?.popViewController(animated: true)
+        addBlock?()
     }
 
     func makeUI() {
@@ -273,10 +275,9 @@ extension FMAddVC {
     }
 }
 
-//extension FMAddVC {
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        textfield.resignFirstResponder()
-//        navigationController?.popViewController(animated: true)
-//    }
-//}
+extension FMAddVC {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        textfield.resignFirstResponder()
+    }
+}
 

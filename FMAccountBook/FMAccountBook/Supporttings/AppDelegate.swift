@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         DatabaseManager.sharedInstance().dbDocumentPath = DBManager.documentDir
-        DBManager.async {
+        asyncCall {
             let tables = [FMRecord.self]
             DBManager.create(tables: tables)
             DBManager.upgrade(tables: tables)

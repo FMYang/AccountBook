@@ -16,6 +16,12 @@ protocol DBProtocol {
     static var columns: [[String: String]] { get }
 }
 
+public func asyncCall(block: @escaping ()->()) {
+    DispatchQueue.global().async {
+        block()
+    }
+}
+
 class DBManager {
     
     static let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
@@ -28,12 +34,6 @@ class DBManager {
     let dbQueue: FMDatabaseQueue? = FMDatabaseQueue(path: DBManager.dbPath)
     
     // MARK: - public method
-    
-    public static func async(block: @escaping ()->()) {
-        DispatchQueue.global().async {
-            block()
-        }
-    }
     
     // 创建表
     public static func create<T: DBProtocol>(tables: [T.Type]) {

@@ -180,7 +180,7 @@ class FMRecord {
     // 交易分类
     var category: TradeCategory = .dining
     // 交易日期
-    var date: Date?
+    var date: String = ""
     // 所属账本
     var accountBookIds: String?
 }
@@ -205,7 +205,7 @@ extension FMRecord: DBProtocol {
     }
     
     var insertSql: String {
-        return "insert or replace into table \(FMRecord.tableName) (tradeAmount, tradeType, category, date, accountBookIds) values (\(tradeAmount), \(tradeType), \(category), '\(date ?? Date())', '\(accountBookIds ?? "")'"
+        return "insert or replace into \(FMRecord.tableName) (tradeAmount, tradeType, category, date, accountBookIds) values (\(tradeAmount), \(tradeType.rawValue), \(category.rawValue), '\(date)', '\(accountBookIds ?? "")')"
     }
     
     static func toModel(resultSet: FMResultSet) -> DBProtocol {
@@ -214,7 +214,7 @@ extension FMRecord: DBProtocol {
         record.tradeAmount = resultSet.double(forColumn: "tradeAmount")
         record.tradeType = TradeType(rawValue: Int(resultSet.int(forColumn: "tradeType"))) ?? .expense
         record.category = TradeCategory(rawValue: Int(resultSet.int(forColumn: "category"))) ?? .dining
-        record.date = resultSet.date(forColumn: "date")
+        record.date = resultSet.string(forColumn: "date") ?? ""
         record.accountBookIds = resultSet.string(forColumn: "accountBookIds")
         return record
     }
