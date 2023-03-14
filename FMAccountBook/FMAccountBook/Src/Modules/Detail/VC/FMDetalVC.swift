@@ -50,6 +50,25 @@ class FMDetalVC: UIViewController {
         makeUI()
         addLongPressGes()
         loadData()
+        querySum()
+    }
+    
+    func querySum() {
+        asyncCall {
+            // 总支出
+            DBManager.shared.dbQueue?.inDatabase({ db in
+                let sql = "select sum(tradeAmount) as total_amount from \(FMRecord.tableName) where strftime('%m', date) = '03' and tradeType = 1"
+                do {
+                    let ret = try db.executeQuery(sql, values: nil)
+                    while ret.next() {
+                        let amount = ret.double(forColumn: "total_amount")
+                        print("amount = \(amount)")
+                    }
+                } catch {
+                    print(error)
+                }
+            })
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

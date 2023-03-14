@@ -108,7 +108,7 @@ class DBManager {
             }
         })
     }
-    
+        
     // MARK: - private method
     private static func createTable<T: DBProtocol>(object: T.Type) {
         shared.dbQueue?.inDatabase({ db in
