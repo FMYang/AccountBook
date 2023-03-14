@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             DBManager.create(tables: tables)
             DBManager.upgrade(tables: tables)
         }
+        Calendar.currentYearMonth()
         return true
     }
 

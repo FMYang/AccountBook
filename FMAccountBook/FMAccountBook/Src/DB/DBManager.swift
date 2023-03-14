@@ -56,6 +56,9 @@ class DBManager {
     }
     
     /// 查询数据
+    ///
+    /// eg: select * from table where id = 3 order by date desc
+    ///
     /// - Parameters:
     ///   - object: 符合<DBProtocol>协议的对象
     ///   - condition: 查询条件

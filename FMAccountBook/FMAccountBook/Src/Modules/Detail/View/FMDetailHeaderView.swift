@@ -18,7 +18,7 @@ class FMDetailHeaderView: UITableViewHeaderFooterView {
     
     lazy var coverView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white.withAlphaComponent(0.5)
+        view.backgroundColor = .white.withAlphaComponent(0.7)
         return view
     }()
     
@@ -51,8 +51,10 @@ class FMDetailHeaderView: UITableViewHeaderFooterView {
     }
     
     func config() {
-        let url = URL(string: "https://picsum.photos/600/400")!
-        bgImageView.kf.setImage(with: .network(url))
+        let iconName = "\(arc4random() % 29 + 1).jpeg"
+        bgImageView.image = UIImage(named: iconName)
+//        let url = URL(string: "https://picsum.photos/600/400")!
+//        bgImageView.kf.setImage(with: .network(url))
     }
     
     func makeUI() {
