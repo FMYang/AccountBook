@@ -10,11 +10,8 @@ import DatabaseVisual
 
 class FMDetalVC: UIViewController {
     
-    var datasource: [FMRecord] = [] {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    var viewModel = FMDetailViewModel()
+    var month = Calendar.currentMonth() ?? 1
     
     lazy var addButton: UIButton = {
         let btn = UIButton()
@@ -46,47 +43,27 @@ class FMDetalVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "收支"
+        navigationItem.title = "收支"
         makeUI()
         addLongPressGes()
+        bindViewModel()
         loadData()
-        querySum()
     }
     
-    func querySum() {
-        asyncCall {
-            // 总支出
-            DBManager.shared.dbQueue?.inDatabase({ db in
-                let sql = "select sum(tradeAmount) as total_amount from \(FMRecord.tableName) where strftime('%m', date) = '03' and tradeType = 1"
-                do {
-                    let ret = try db.executeQuery(sql, values: nil)
-                    while ret.next() {
-                        let amount = ret.double(forColumn: "total_amount")
-                        print("amount = \(amount)")
-                    }
-                } catch {
-                    print(error)
-                }
-            })
+    func bindViewModel() {
+        viewModel.listDataChangedBlock = { [weak self] in
+            self?.tableView.reloadData()
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.barTintColor = UIColor.red
     }
     
     func loadData() {
-        asyncCall { [weak self] in
-            // 查询3月数据
-            DBManager.query(object: FMRecord.self, condition: "strftime('%m', date) = '03'", orderBy: "date", isDesc: true) { [weak self] records in
-                DispatchQueue.main.async {
-                    if let data = records as? [FMRecord] {
-                        self?.datasource = data
-                    }
-                }
-            }
-        }
+        let month = String(format: "%02d", month)
+        viewModel.fetchData(month: month)
+    }
+        
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.barTintColor = UIColor.red
     }
     
     @objc func addAction() {
@@ -128,16 +105,16 @@ extension FMDetalVC {
 
 extension FMDetalVC: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return viewModel.numberOfSections()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return datasource.count
+        return viewModel.numberOfRows(section: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! FMDetailCell
-        cell.config(model: datasource[indexPath.row])
+        cell.config(model: viewModel.listModel(indexPath: indexPath))
         return cell
     }
     
@@ -146,7 +123,8 @@ extension FMDetalVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "header")
+        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "header") as! FMDetailHeaderView
+        view.config(model: viewModel.headerModel(section: section))
         return view
     }
     
@@ -156,7 +134,7 @@ extension FMDetalVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 114.0
+        return 134.0
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -164,9 +142,8 @@ extension FMDetalVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        FMCoreData.shared.delete(entity: datasource[indexPath.row])
-//        datasource.remove(at: indexPath.row)
-//        tableView.reloadData()
+        viewModel.delete(indexPath: indexPath)
+        self.loadData()
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -182,7 +159,6 @@ extension FMDetalVC: UITableViewDelegate, UITableViewDataSource {
         headerView.layer.isOpaque = true
         headerView.layer.cornerRadius = 8
         headerView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        headerView.config()
     }
     
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {

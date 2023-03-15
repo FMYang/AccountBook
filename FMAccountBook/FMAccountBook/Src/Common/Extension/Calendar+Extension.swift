@@ -19,23 +19,17 @@ extension Calendar {
         return ""
     }
     
-    static func currentYear() -> String {
+    static func currentYear() -> Int? {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.year], from: Date())
         let year = components.year
-        if let y = year {
-            return "\(y)"
-        }
-        return ""
+        return year
     }
     
-    static func currentMonth() -> String {
+    static func currentMonth() -> Int? {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.month], from: Date())
         let month = components.month
-        if let m = month {
-            return "\(m)"
-        }
-        return ""
+        return month
     }
 }

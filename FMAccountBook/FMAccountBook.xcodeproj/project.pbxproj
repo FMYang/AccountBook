@@ -60,6 +60,9 @@
 		88B8292D29C08091005F52A8 /* 13.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 88B8290F29C08091005F52A8 /* 13.jpeg */; };
 		88B8292E29C08091005F52A8 /* 29.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 88B8291029C08091005F52A8 /* 29.jpeg */; };
 		88B8292F29C08091005F52A8 /* 3.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 88B8291129C08091005F52A8 /* 3.jpeg */; };
+		88B8293229C15996005F52A8 /* FMDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8293129C15996005F52A8 /* FMDetailViewModel.swift */; };
+		88B8293529C159EA005F52A8 /* FMDetailListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8293429C159EA005F52A8 /* FMDetailListModel.swift */; };
+		88B8293729C1762F005F52A8 /* FMNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8293629C1762F005F52A8 /* FMNavigationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -119,6 +122,9 @@
 		88B8290F29C08091005F52A8 /* 13.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 13.jpeg; sourceTree = "<group>"; };
 		88B8291029C08091005F52A8 /* 29.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 29.jpeg; sourceTree = "<group>"; };
 		88B8291129C08091005F52A8 /* 3.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3.jpeg; sourceTree = "<group>"; };
+		88B8293129C15996005F52A8 /* FMDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMDetailViewModel.swift; sourceTree = "<group>"; };
+		88B8293429C159EA005F52A8 /* FMDetailListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMDetailListModel.swift; sourceTree = "<group>"; };
+		88B8293629C1762F005F52A8 /* FMNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMNavigationController.swift; sourceTree = "<group>"; };
 		9424A18179DA89052ED9C6EA /* Pods_FMAccountBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FMAccountBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -210,6 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				88B828CA29B84027005F52A8 /* FMTabbarController.swift */,
+				88B8293629C1762F005F52A8 /* FMNavigationController.swift */,
 			);
 			path = Tabbar;
 			sourceTree = "<group>";
@@ -217,6 +224,8 @@
 		88B828C829B83D75005F52A8 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				88B8293329C159D4005F52A8 /* Model */,
+				88B8293029C15980005F52A8 /* ViewModel */,
 				88B828E829B9D553005F52A8 /* View */,
 				88B828E729B9D54E005F52A8 /* VC */,
 			);
@@ -347,6 +356,22 @@
 				88B828F629C08091005F52A8 /* 30.jpeg */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		88B8293029C15980005F52A8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				88B8293129C15996005F52A8 /* FMDetailViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		88B8293329C159D4005F52A8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				88B8293429C159EA005F52A8 /* FMDetailListModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		C2053E09E4ACB3BDA743EA1D /* Frameworks */ = {
@@ -513,11 +538,14 @@
 				88B828B529B83C99005F52A8 /* ViewController.swift in Sources */,
 				88B828DD29B88620005F52A8 /* UIColor+Extension.swift in Sources */,
 				88B828CD29B840CA005F52A8 /* FMDetalVC.swift in Sources */,
+				88B8293529C159EA005F52A8 /* FMDetailListModel.swift in Sources */,
+				88B8293729C1762F005F52A8 /* FMNavigationController.swift in Sources */,
 				88B828F029C04AAA005F52A8 /* String+Extension.swift in Sources */,
 				88B828CB29B84027005F52A8 /* FMTabbarController.swift in Sources */,
 				88B828DA29B8751A005F52A8 /* FMRecord.swift in Sources */,
 				88B828B129B83C99005F52A8 /* AppDelegate.swift in Sources */,
 				88B828CF29B840D6005F52A8 /* FMBookVC.swift in Sources */,
+				88B8293229C15996005F52A8 /* FMDetailViewModel.swift in Sources */,
 				88B828EC29C023F3005F52A8 /* FMDetailHeaderView.swift in Sources */,
 				88B828B329B83C99005F52A8 /* SceneDelegate.swift in Sources */,
 				88B828D229B86D72005F52A8 /* DBManager.swift in Sources */,

@@ -29,15 +29,42 @@ class FMDetailHeaderView: UITableViewHeaderFooterView {
         return label
     }()
     
+    lazy var incomeTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "收入: "
+        label.font = .systemFont(ofSize: 14)
+        return label
+    }()
+    
+    lazy var expenseTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "支出: "
+        label.font = .systemFont(ofSize: 14)
+        return label
+    }()
+    
     lazy var incomeLabel: UILabel = {
         let label = UILabel()
-        label.text = "收入：¥ 10"
+        label.font = .systemFont(ofSize: 16, weight: .bold)
         return label
     }()
     
     lazy var expenseLabel: UILabel = {
         let label = UILabel()
-        label.text = "支出：¥ 10"
+        label.font = .systemFont(ofSize: 16, weight: .bold)
+        return label
+    }()
+    
+    lazy var surplusTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14)
+        label.text = "结余: "
+        return label
+    }()
+    
+    lazy var surplusLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 16, weight: .bold)
         return label
     }()
 
@@ -50,19 +77,26 @@ class FMDetailHeaderView: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func config() {
-        let iconName = "\(arc4random() % 29 + 1).jpeg"
-        bgImageView.image = UIImage(named: iconName)
-//        let url = URL(string: "https://picsum.photos/600/400")!
-//        bgImageView.kf.setImage(with: .network(url))
+    func config(model: FMDetailListModel) {
+        //        let url = URL(string: "https://picsum.photos/600/400")!
+        //        bgImageView.kf.setImage(with: .network(url))
+        bgImageView.image = UIImage(named: model.imageName)
+        expenseLabel.text = String(format: "¥ %.2f", model.totalExpense)
+        incomeLabel.text = String(format: "¥ %.2f", model.totalIncome)
+        surplusLabel.text = String(format: "¥ %.2f", model.totalIncome - model.totalExpense)
     }
     
     func makeUI() {
         addSubview(bgImageView)
         addSubview(coverView)
         addSubview(monthLabel)
+        addSubview(expenseTitleLabel)
         addSubview(expenseLabel)
+        addSubview(incomeTitleLabel)
         addSubview(incomeLabel)
+        addSubview(expenseLabel)
+        addSubview(surplusTitleLabel)
+        addSubview(surplusLabel)
         
         bgImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -78,15 +112,36 @@ class FMDetailHeaderView: UITableViewHeaderFooterView {
             make.height.equalTo(44)
         }
         
-        expenseLabel.snp.makeConstraints { make in
+        expenseTitleLabel.snp.makeConstraints { make in
             make.left.equalTo(monthLabel)
             make.top.equalTo(monthLabel.snp.bottom).offset(10)
             make.height.equalTo(20)
         }
         
+        expenseLabel.snp.makeConstraints { make in
+            make.left.equalTo(expenseTitleLabel.snp.right).offset(5)
+            make.centerY.equalTo(expenseTitleLabel)
+        }
+        
+        incomeTitleLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(incomeLabel)
+            make.right.equalTo(incomeLabel.snp.left).offset(-5)
+        }
+        
         incomeLabel.snp.makeConstraints { make in
             make.centerY.equalTo(expenseLabel)
             make.right.equalToSuperview().offset(-20)
+        }
+        
+        surplusTitleLabel.snp.makeConstraints { make in
+            make.left.equalTo(expenseTitleLabel)
+            make.top.equalTo(expenseTitleLabel.snp.bottom).offset(10)
+            make.height.equalTo(20)
+        }
+        
+        surplusLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(surplusTitleLabel)
+            make.left.equalTo(surplusTitleLabel.snp.right).offset(5)
         }
     }
     

@@ -11,7 +11,7 @@ class FMBookVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "账本"
+        navigationItem.title = "我的账本"
     }
 
 }

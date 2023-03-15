@@ -108,6 +108,21 @@ class DBManager {
             }
         })
     }
+    
+    public static func delete<T: DBProtocol>(object: T.Type, condition: String?) {
+        var sql = "delete from \(object.tableName)"
+        if let condition = condition {
+            sql += " where \(condition)"
+        }
+        print(sql)
+        shared.dbQueue?.inDatabase({ db in
+            do {
+                try db.executeUpdate(sql, values: nil)
+            } catch {
+                print(error)
+            }
+        })
+    }
         
     // MARK: - private method
     private static func createTable<T: DBProtocol>(object: T.Type) {

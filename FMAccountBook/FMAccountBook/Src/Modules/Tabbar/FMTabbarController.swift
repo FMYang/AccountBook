@@ -50,7 +50,7 @@ enum ItemType {
             vc = FMBookVC()
         }
         vc.tabBarItem = item
-        let nav = UINavigationController(rootViewController: vc)
+        let nav = FMNavigationController(rootViewController: vc)
         
         // 设置导航栏背景色
         let barAppearance = UINavigationBarAppearance()
