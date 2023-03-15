@@ -106,6 +106,18 @@ class FMAddVC: UIViewController {
         return view
     }()
     
+    lazy var dateButton: UIButton = {
+        let btn = UIButton()
+        btn.backgroundColor = selectedColor.withAlphaComponent(0.2)
+        btn.layer.cornerRadius = 15
+        btn.layer.masksToBounds = true
+        btn.setTitle("2023年03月14日", for: .normal)
+        btn.setTitleColor(selectedColor, for: .normal)
+        btn.addTarget(self, action: #selector(dateAction), for: .touchUpInside)
+        btn.titleLabel?.font = .systemFont(ofSize: 14)
+        return btn
+    }()
+    
     lazy var confirmButton: UIButton = {
         let btn = UIButton()
         btn.setBackgroundImage(UIColor.createImage(color: selectedColor), for: .normal)
@@ -149,14 +161,31 @@ class FMAddVC: UIViewController {
     }
     
     @objc func confirmAction() {
+        var dateString = String.currentDate()
+        if let dateText = dateButton.titleLabel?.text {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy年MM月dd日"
+            let date = formatter.date(from: dateText) ?? Date()
+            formatter.dateFormat = "yyyy-MM-dd"
+            dateString = formatter.string(from: date)
+        }
         let record = FMRecord()
         record.tradeAmount = Double(textfield.text ?? "0.0") ?? 0.0
         record.category = selectedCategory
-        record.date = String.currentDate()
+        record.date = dateString
         record.tradeType = incomeButton.isSelected ? .income : .expense
         asyncCall { DBManager.insert(object: record) }
         navigationController?.popViewController(animated: true)
         addBlock?()
+    }
+    
+    @objc func dateAction() {
+        let dateView = FMDatePickerView(frame: UIScreen.main.bounds)
+        dateView.confirmBlock = { [weak self] year, month, day in
+            let text = String(format: "%d年%02d月%02d日", year, month, day)
+            self?.dateButton.setTitle(text, for: .normal)
+        }
+        navigationController?.view.addSubview(dateView)
     }
 
     func makeUI() {
@@ -170,6 +199,7 @@ class FMAddVC: UIViewController {
         categoryView.addSubview(expenseButton)
         categoryView.addSubview(collectionView)
         bottomView.addSubview(confirmButton)
+        view.addSubview(dateButton)
         
         topView.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
@@ -225,6 +255,13 @@ class FMAddVC: UIViewController {
             make.top.equalTo(incomeButton.snp.bottom).offset(20)
             make.height.equalTo(130)
             make.bottom.equalToSuperview().offset(-10)
+        }
+        
+        dateButton.snp.makeConstraints { make in
+            make.top.equalTo(collectionView.snp.bottom).offset(20)
+            make.left.equalToSuperview().offset(20)
+            make.width.equalTo(140)
+            make.height.equalTo(30)
         }
         
         confirmButton.snp.makeConstraints { make in

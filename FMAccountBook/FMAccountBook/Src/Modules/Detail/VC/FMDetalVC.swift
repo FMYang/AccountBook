@@ -12,6 +12,7 @@ class FMDetalVC: UIViewController {
     
     var viewModel = FMDetailViewModel()
     var month = Calendar.currentMonth() ?? 1
+    var year = Calendar.currentYear() ?? 2023
     
     lazy var addButton: UIButton = {
         let btn = UIButton()
@@ -26,6 +27,50 @@ class FMDetalVC: UIViewController {
         return btn
     }()
     
+    lazy var toolView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    lazy var dateLabel: UILabel = {
+        let label = UILabel()
+        label.text = "2023.03"
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .black
+        return label
+    }()
+    
+    lazy var arrowImageView1: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "downward-arrow")
+        return view
+    }()
+    
+    lazy var dateButton: UIButton = {
+        let btn = UIButton()
+        btn.addTarget(self, action: #selector(dateAction), for: .touchUpInside)
+        return btn
+    }()
+    
+    lazy var filterLabel: UILabel = {
+        let label = UILabel()
+        label.text = "筛选"
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .black
+        return label
+    }()
+    
+    lazy var arrowImageView2: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "downward-arrow")
+        return view
+    }()
+    
+    lazy var filterButton: UIButton = {
+        let btn = UIButton()
+        return btn
+    }()
+    
     lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .grouped)
         view.backgroundColor = .clear
@@ -37,7 +82,24 @@ class FMDetalVC: UIViewController {
         view.register(FMDetailCell.self, forCellReuseIdentifier: "cell")
         view.register(FMDetailHeaderView.self, forHeaderFooterViewReuseIdentifier: "header")
         view.register(FMDetalFooterView.self, forHeaderFooterViewReuseIdentifier: "footer")
-        view.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+        view.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        return view
+    }()
+    
+    lazy var emptyView: UIView = {
+        let view = UIView()
+        view.isHidden = true
+        
+        let label = UILabel()
+        label.textColor = UIColor.gray.withAlphaComponent(0.5)
+        label.text = "暂无数据，快来记一笔"
+        label.textAlignment = .center
+        label.numberOfLines = 3
+        label.font = .systemFont(ofSize: 14)
+        view.addSubview(label)
+        label.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         return view
     }()
     
@@ -52,13 +114,13 @@ class FMDetalVC: UIViewController {
     
     func bindViewModel() {
         viewModel.listDataChangedBlock = { [weak self] in
+            self?.emptyView.isHidden = (self?.viewModel.listData.count ?? 0) > 0 ? true : false
             self?.tableView.reloadData()
         }
     }
     
     func loadData() {
-        let month = String(format: "%02d", month)
-        viewModel.fetchData(month: month)
+        viewModel.fetchData(year: year, month: month)
     }
         
     override func viewWillAppear(_ animated: Bool) {
@@ -75,18 +137,86 @@ class FMDetalVC: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    @objc func dateAction() {
+        let dateView = FMDatePickerView(frame: UIScreen.main.bounds)
+        dateView.confirmBlock = { [weak self] year, month, day in
+            self?.year = year
+            self?.month = month
+            let text = String(format: "%04d.%02d", year, month)
+            self?.dateLabel.text = text
+            self?.loadData()
+        }
+        UIApplication.shared.zy_keyWindow?.addSubview(dateView)
+    }
+    
     func makeUI() {
+        view.addSubview(toolView)
+        toolView.addSubview(dateLabel)
+        toolView.addSubview(arrowImageView1)
+        toolView.addSubview(dateButton)
+        toolView.addSubview(filterLabel)
+        toolView.addSubview(arrowImageView2)
+        toolView.addSubview(filterButton)
         view.addSubview(tableView)
+        view.addSubview(emptyView)
         view.addSubview(addButton)
         
+        toolView.snp.makeConstraints { make in
+            make.top.left.right.equalToSuperview()
+            make.height.equalTo(30)
+        }
+        
+        dateLabel.snp.makeConstraints { make in
+            make.top.bottom.equalToSuperview()
+            make.left.equalToSuperview().offset(12)
+        }
+        
+        arrowImageView1.snp.makeConstraints { make in
+            make.left.equalTo(dateLabel.snp.right).offset(5)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(14)
+        }
+        
+        dateButton.snp.makeConstraints { make in
+            make.left.equalTo(dateLabel)
+            make.right.equalTo(arrowImageView1.snp.right)
+            make.top.bottom.equalToSuperview()
+        }
+        
+        arrowImageView2.snp.makeConstraints { make in
+            make.width.height.equalTo(14)
+            make.centerY.equalToSuperview()
+            make.right.equalToSuperview().offset(-10)
+        }
+        
+        filterLabel.snp.makeConstraints { make in
+            make.right.equalTo(arrowImageView2.snp.left).offset(-5)
+            make.top.bottom.equalToSuperview()
+        }
+        
+        filterButton.snp.makeConstraints { make in
+            make.left.equalTo(filterLabel)
+            make.right.equalTo(arrowImageView2)
+            make.top.bottom.equalToSuperview()
+        }
+        
         tableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10))
+            make.top.equalTo(toolView.snp.bottom)
+            make.left.equalToSuperview().offset(10)
+            make.right.equalToSuperview().offset(-10)
+            make.bottom.equalToSuperview()
         }
         
         addButton.snp.makeConstraints { make in
             make.width.height.equalTo(48)
             make.right.equalToSuperview().offset(-30)
             make.bottom.equalToSuperview().offset(-30)
+        }
+        
+        emptyView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(10)
+            make.right.equalToSuperview().offset(-10)
         }
     }
 }

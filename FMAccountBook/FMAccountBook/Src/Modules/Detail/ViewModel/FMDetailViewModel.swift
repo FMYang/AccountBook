@@ -18,16 +18,18 @@ class FMDetailViewModel {
         }
     }
     
-    func fetchData(month: String) {
+    func fetchData(year: Int, month: Int) {
         asyncCall { [weak self] in
             let model = FMDetailListModel()
-            model.month = month
+            model.month = "\(month)"
             let iconName = "\(arc4random() % 29 + 1).jpeg"
             model.imageName = iconName
             
+            let condition = String(format: "%04d-%02d", year, month)
+            
             // 总支出
             DBManager.shared.dbQueue?.inDatabase({ db in
-                let sql = "select sum(tradeAmount) as total_amount from \(FMRecord.tableName) where strftime('%m', date) = '\(month)' and tradeType = \(TradeType.expense.rawValue)"
+                let sql = "select sum(tradeAmount) as total_amount from \(FMRecord.tableName) where strftime('%Y-%m', date) = '\(condition)' and tradeType = \(TradeType.expense.rawValue)"
                 do {
                     let ret = try db.executeQuery(sql, values: nil)
                     while ret.next() {
@@ -42,7 +44,7 @@ class FMDetailViewModel {
 
             // 总收入
             DBManager.shared.dbQueue?.inDatabase({ db in
-                let sql = "select sum(tradeAmount) as total_amount from \(FMRecord.tableName) where strftime('%m', date) = '\(month)' and tradeType = \(TradeType.income.rawValue)"
+                let sql = "select sum(tradeAmount) as total_amount from \(FMRecord.tableName) where strftime('%Y-%m', date) = '\(condition)' and tradeType = \(TradeType.income.rawValue)"
                 do {
                     let ret = try db.executeQuery(sql, values: nil)
                     while ret.next() {
@@ -56,7 +58,7 @@ class FMDetailViewModel {
             })
 
             // 查询3月数据集合
-            DBManager.query(object: FMRecord.self, condition: "strftime('%m', date) = '\(month)'", orderBy: "date", isDesc: true, limit: 10, offset: 0) { records in
+            DBManager.query(object: FMRecord.self, condition: "strftime('%Y-%m', date) = '\(condition)'", orderBy: "date", isDesc: true, limit: 10, offset: 0) { records in
                 if let data = records as? [FMRecord] {
                     model.list = data
                 }
@@ -66,7 +68,7 @@ class FMDetailViewModel {
             result.append(model)
             
             DispatchQueue.main.async {
-                self?.listData = result
+                self?.listData = model.list.count > 0 ? result : []
             }
         }
     }

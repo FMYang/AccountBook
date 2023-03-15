@@ -63,6 +63,9 @@
 		88B8293229C15996005F52A8 /* FMDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8293129C15996005F52A8 /* FMDetailViewModel.swift */; };
 		88B8293529C159EA005F52A8 /* FMDetailListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8293429C159EA005F52A8 /* FMDetailListModel.swift */; };
 		88B8293729C1762F005F52A8 /* FMNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8293629C1762F005F52A8 /* FMNavigationController.swift */; };
+		88B8293929C1A37F005F52A8 /* FMDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8293829C1A37F005F52A8 /* FMDatePickerView.swift */; };
+		88B8293B29C1A483005F52A8 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8293A29C1A483005F52A8 /* UIView+Extension.swift */; };
+		88B8293D29C1D9E3005F52A8 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8293C29C1D9E3005F52A8 /* UIApplication+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -125,6 +128,9 @@
 		88B8293129C15996005F52A8 /* FMDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMDetailViewModel.swift; sourceTree = "<group>"; };
 		88B8293429C159EA005F52A8 /* FMDetailListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMDetailListModel.swift; sourceTree = "<group>"; };
 		88B8293629C1762F005F52A8 /* FMNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMNavigationController.swift; sourceTree = "<group>"; };
+		88B8293829C1A37F005F52A8 /* FMDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMDatePickerView.swift; sourceTree = "<group>"; };
+		88B8293A29C1A483005F52A8 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		88B8293C29C1D9E3005F52A8 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		9424A18179DA89052ED9C6EA /* Pods_FMAccountBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FMAccountBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -275,6 +281,8 @@
 				88B828DC29B88620005F52A8 /* UIColor+Extension.swift */,
 				88B828EF29C04AAA005F52A8 /* String+Extension.swift */,
 				88B828F129C07CB5005F52A8 /* Calendar+Extension.swift */,
+				88B8293A29C1A483005F52A8 /* UIView+Extension.swift */,
+				88B8293C29C1D9E3005F52A8 /* UIApplication+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -317,6 +325,7 @@
 				88B828E929B9D569005F52A8 /* FMDetailCell.swift */,
 				88B828EB29C023F3005F52A8 /* FMDetailHeaderView.swift */,
 				88B828ED29C027FC005F52A8 /* FMDetalFooterView.swift */,
+				88B8293829C1A37F005F52A8 /* FMDatePickerView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -531,6 +540,7 @@
 				88B828F229C07CB5005F52A8 /* Calendar+Extension.swift in Sources */,
 				88B828EE29C027FC005F52A8 /* FMDetalFooterView.swift in Sources */,
 				88B828EA29B9D569005F52A8 /* FMDetailCell.swift in Sources */,
+				88B8293929C1A37F005F52A8 /* FMDatePickerView.swift in Sources */,
 				88B828E629B99594005F52A8 /* FMAccountBook.swift in Sources */,
 				88B828D529B86DBB005F52A8 /* Constant.swift in Sources */,
 				88B828D829B86F43005F52A8 /* FMAddVC.swift in Sources */,
@@ -544,10 +554,12 @@
 				88B828CB29B84027005F52A8 /* FMTabbarController.swift in Sources */,
 				88B828DA29B8751A005F52A8 /* FMRecord.swift in Sources */,
 				88B828B129B83C99005F52A8 /* AppDelegate.swift in Sources */,
+				88B8293B29C1A483005F52A8 /* UIView+Extension.swift in Sources */,
 				88B828CF29B840D6005F52A8 /* FMBookVC.swift in Sources */,
 				88B8293229C15996005F52A8 /* FMDetailViewModel.swift in Sources */,
 				88B828EC29C023F3005F52A8 /* FMDetailHeaderView.swift in Sources */,
 				88B828B329B83C99005F52A8 /* SceneDelegate.swift in Sources */,
+				88B8293D29C1D9E3005F52A8 /* UIApplication+Extension.swift in Sources */,
 				88B828D229B86D72005F52A8 /* DBManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

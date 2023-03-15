@@ -18,7 +18,7 @@ class FMDetailHeaderView: UITableViewHeaderFooterView {
     
     lazy var coverView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white.withAlphaComponent(0.7)
+        view.backgroundColor = .white.withAlphaComponent(0.6)
         return view
     }()
     
