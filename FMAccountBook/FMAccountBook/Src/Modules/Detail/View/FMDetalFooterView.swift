@@ -8,24 +8,46 @@
 import UIKit
 
 class FMDetalFooterView: UITableViewHeaderFooterView {
+
+    lazy var borderView: UIView = {
+        let view = UIView()
+        view.backgroundColor = bgColor
+        view.layer.borderWidth = 0.5
+        view.layer.borderColor = UIColor.gray.withAlphaComponent(0.2).cgColor
+        view.layer.masksToBounds = true
+        view.layer.isOpaque = true
+        view.layer.cornerRadius = 5
+        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        return view
+    }()
     
-    lazy var maskLayer: CAShapeLayer = {
-        let layer = CAShapeLayer()
-        return layer
+    lazy var coverView: UIView = {
+        let view = UIView()
+        view.backgroundColor = bgColor
+        return view
     }()
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
+        makeUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        let path = UIBezierPath(roundedRect: CGRect(x: 0, y: 0.5, width: self.bounds.width, height: self.bounds.height), byRoundingCorners: [.bottomLeft, .bottomRight], cornerRadii: CGSize(width: 5, height: 5))
-        maskLayer.path = path.cgPath
-        self.layer.mask = maskLayer
+    
+    func makeUI() {
+        addSubview(borderView)
+        addSubview(coverView)
+        borderView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        coverView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.left.equalToSuperview().offset(0.5)
+            make.right.equalToSuperview().offset(-0.5)
+            make.height.equalTo(1)
+        }
     }
 }

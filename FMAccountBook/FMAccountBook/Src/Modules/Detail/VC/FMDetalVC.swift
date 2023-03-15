@@ -68,6 +68,7 @@ class FMDetalVC: UIViewController {
     
     lazy var filterButton: UIButton = {
         let btn = UIButton()
+        btn.addTarget(self, action: #selector(filterAction), for: .touchUpInside)
         return btn
     }()
     
@@ -147,6 +148,11 @@ class FMDetalVC: UIViewController {
             self?.loadData()
         }
         UIApplication.shared.zy_keyWindow?.addSubview(dateView)
+    }
+    
+    @objc func filterAction() {
+        let filterView = FMFilterView(frame: UIScreen.main.bounds)
+        UIApplication.shared.zy_keyWindow?.addSubview(filterView)
     }
     
     func makeUI() {
@@ -289,17 +295,5 @@ extension FMDetalVC: UITableViewDelegate, UITableViewDataSource {
         headerView.layer.isOpaque = true
         headerView.layer.cornerRadius = 8
         headerView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-        let footerView = view as! UITableViewHeaderFooterView
-        footerView.contentView.backgroundColor = bgColor
-        footerView.layer.borderWidth = 0.5
-        footerView.layer.borderColor = UIColor.gray.withAlphaComponent(0.2).cgColor
-        footerView.layer.masksToBounds = true
-        footerView.layer.isOpaque = true
-        footerView.layer.cornerRadius = 5
-        footerView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-
     }
 }

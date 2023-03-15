@@ -1,0 +1,6 @@
+framework module Pods_FMAccountBook {
+  umbrella header "Pods-FMAccountBook-umbrella.h"
+
+  export *
+  module * { export * }
+}

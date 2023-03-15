@@ -80,6 +80,7 @@ class FMDetailHeaderView: UITableViewHeaderFooterView {
     func config(model: FMDetailListModel) {
         //        let url = URL(string: "https://picsum.photos/600/400")!
         //        bgImageView.kf.setImage(with: .network(url))
+        monthLabel.text = model.month + "月"
         bgImageView.image = UIImage(named: model.imageName)
         expenseLabel.text = String(format: "¥ %.2f", model.totalExpense)
         incomeLabel.text = String(format: "¥ %.2f", model.totalIncome)

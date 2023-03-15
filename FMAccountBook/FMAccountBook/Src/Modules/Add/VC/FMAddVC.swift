@@ -108,10 +108,11 @@ class FMAddVC: UIViewController {
     
     lazy var dateButton: UIButton = {
         let btn = UIButton()
+        let dateText = String.currentDate(dateFormat: .date_cn)
         btn.backgroundColor = selectedColor.withAlphaComponent(0.2)
         btn.layer.cornerRadius = 15
         btn.layer.masksToBounds = true
-        btn.setTitle("2023年03月14日", for: .normal)
+        btn.setTitle(dateText, for: .normal)
         btn.setTitleColor(selectedColor, for: .normal)
         btn.addTarget(self, action: #selector(dateAction), for: .touchUpInside)
         btn.titleLabel?.font = .systemFont(ofSize: 14)
@@ -161,13 +162,15 @@ class FMAddVC: UIViewController {
     }
     
     @objc func confirmAction() {
-        var dateString = String.currentDate()
-        if let dateText = dateButton.titleLabel?.text {
+        var dateString = String.currentDate(dateFormat: .date_en)
+        let date_cn = String.currentDate(dateFormat: .date_cn)
+        if let dateText = dateButton.titleLabel?.text, dateText != date_cn {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy年MM月dd日"
             let date = formatter.date(from: dateText) ?? Date()
             formatter.dateFormat = "yyyy-MM-dd"
-            dateString = formatter.string(from: date)
+            let time = String.currentDate(dateFormat: .time)
+            dateString = formatter.string(from: date) + " " + time
         }
         let record = FMRecord()
         record.tradeAmount = Double(textfield.text ?? "0.0") ?? 0.0
@@ -293,7 +296,7 @@ extension FMAddVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0.0
+        return CGFloat.leastNonzeroMagnitude
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

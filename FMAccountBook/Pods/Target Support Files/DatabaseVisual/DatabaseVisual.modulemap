@@ -1,0 +1,6 @@
+framework module DatabaseVisual {
+  umbrella header "DatabaseVisual-umbrella.h"
+
+  export *
+  module * { export * }
+}

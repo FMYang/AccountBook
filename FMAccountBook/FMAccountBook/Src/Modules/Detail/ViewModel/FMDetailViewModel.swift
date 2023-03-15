@@ -27,14 +27,13 @@ class FMDetailViewModel {
             
             let condition = String(format: "%04d-%02d", year, month)
             
-            // 总支出
+            // 当前月份总支出
             DBManager.shared.dbQueue?.inDatabase({ db in
                 let sql = "select sum(tradeAmount) as total_amount from \(FMRecord.tableName) where strftime('%Y-%m', date) = '\(condition)' and tradeType = \(TradeType.expense.rawValue)"
                 do {
                     let ret = try db.executeQuery(sql, values: nil)
                     while ret.next() {
                         let amount = ret.double(forColumn: "total_amount")
-                        print("amount = \(amount)")
                         model.totalExpense = amount
                     }
                 } catch {
@@ -42,14 +41,13 @@ class FMDetailViewModel {
                 }
             })
 
-            // 总收入
+            // 当前月份总收入
             DBManager.shared.dbQueue?.inDatabase({ db in
                 let sql = "select sum(tradeAmount) as total_amount from \(FMRecord.tableName) where strftime('%Y-%m', date) = '\(condition)' and tradeType = \(TradeType.income.rawValue)"
                 do {
                     let ret = try db.executeQuery(sql, values: nil)
                     while ret.next() {
                         let amount = ret.double(forColumn: "total_amount")
-                        print("amount = \(amount)")
                         model.totalIncome = amount
                     }
                 } catch {
@@ -57,8 +55,8 @@ class FMDetailViewModel {
                 }
             })
 
-            // 查询3月数据集合
-            DBManager.query(object: FMRecord.self, condition: "strftime('%Y-%m', date) = '\(condition)'", orderBy: "date", isDesc: true, limit: 10, offset: 0) { records in
+            // 当前月份记录
+            DBManager.query(object: FMRecord.self, condition: "strftime('%Y-%m', date) = '\(condition)'", orderBy: "date", isDesc: true) { records in
                 if let data = records as? [FMRecord] {
                     model.list = data
                 }
@@ -91,10 +89,6 @@ class FMDetailViewModel {
     
     func delete(indexPath: IndexPath) {
         let record = listData[indexPath.section].list[indexPath.row]
-//        listData[indexPath.section].list.remove(at: indexPath.row)
-        asyncCall {
-            DBManager.delete(object: FMRecord.self, condition: "id = \(record.id)")
-        }
-//        listDataChangedBlock?()
+        asyncCall { DBManager.delete(object: FMRecord.self, condition: "id = \(record.id)") }
     }
 }
