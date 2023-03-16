@@ -13,9 +13,9 @@ class FMDetailViewModel {
     var listDataChangedBlock: (()->())?
     var listData: [FMDetailListModel] = []
     
+    // 当前月份总支出/收入
     func totalSum(tradeType: TradeType, condition: String) -> Double {
         var totalAmount = 0.0
-        // 当前月份总支出
         DBManager.shared.dbQueue?.inDatabase({ db in
             let sql = "select sum(tradeAmount) as total_amount from \(FMRecord.tableName) where strftime('%Y-%m', date) = '\(condition)' and tradeType = \(tradeType.rawValue)"
             do {
@@ -31,6 +31,7 @@ class FMDetailViewModel {
         return totalAmount
     }
     
+    // 当前年月记录
     func fetchData(year: Int, month: Int) {
         asyncCall { [weak self] in
             let model = FMDetailListModel()
@@ -60,6 +61,7 @@ class FMDetailViewModel {
         }
     }
     
+    // 加载更多
     func fetchMoreData(completion: @escaping (()->())) {
         asyncCall { [weak self] in
             let date = self?.listData.last?.list.last?.date ?? ""
@@ -107,6 +109,78 @@ class FMDetailViewModel {
             DispatchQueue.main.async {
                 self?.listDataChangedBlock?()
                 completion()
+            }
+        }
+    }
+    
+    // 筛选数据
+    func fetchData(minAmount: Double, maxAmount: Double, categorys: [TradeCategory]) {
+        asyncCall { [weak self] in
+            var condition = ""
+            if minAmount > 0 && maxAmount > 0 {
+                condition += "tradeAmount >= \(minAmount) and tradeAmount <= \(maxAmount)"
+            } else if minAmount > 0 {
+                condition += "tradeAmount >= \(minAmount)"
+            } else if maxAmount > 0 {
+                condition += "tradeAmount <= \(maxAmount)"
+            }
+            for i in 0..<categorys.count {
+                let category = categorys[i]
+                let value = category.rawValue
+                if minAmount > 0 || maxAmount > 0 {
+                    condition += " or category = \(value)"
+                } else {
+                    if i == categorys.count - 1 {
+                        condition += "category = \(value)"
+                    } else {
+                        condition += "category = \(value) or "
+                    }
+                }
+            }
+            
+            var result = [FMDetailListModel]()
+            DBManager.query(object: FMRecord.self, condition: condition, orderBy: "date", isDesc: true) { records in
+                if let data = records as? [FMRecord] {
+                    for record in data {
+                        let year = "\(String.year(date: record.date))"
+                        let month = "\(String.month(date: record.date))"
+                        let existModel = result.first { $0.year == year && $0.month == month }
+                        if existModel != nil {
+                            existModel?.list.append(record)
+                        } else {
+                            let model = FMDetailListModel()
+                            model.imageName = "\(arc4random() % 29 + 1).jpeg"
+                            model.year = year
+                            model.month = month
+                            model.list.append(record)
+                            result.append(model)
+                        }
+                    }
+                    print(result)
+                }
+            }
+            
+            for data in result {
+                if data.list.count > 0 {
+                    let record = data.list.first!
+                    if data.totalIncome < 0.1 {
+                        let y = String.year(date: record.date)
+                        let m = String.month(date: record.date)
+                        let condition = String(format: "%04d-%02d", y, m)
+                        data.totalIncome = self?.totalSum(tradeType: .income, condition: condition) ?? 0.0
+                    }
+                    if data.totalExpense < 0.1 {
+                        let y = String.year(date: record.date)
+                        let m = String.month(date: record.date)
+                        let condition = String(format: "%04d-%02d", y, m)
+                        data.totalExpense = self?.totalSum(tradeType: .expense, condition: condition) ?? 0.0
+                    }
+                }
+            }
+            
+            DispatchQueue.main.async {
+                self?.listData = result
+                self?.listDataChangedBlock?()
             }
         }
     }

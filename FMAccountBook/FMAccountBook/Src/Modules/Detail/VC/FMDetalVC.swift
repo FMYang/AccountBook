@@ -169,6 +169,9 @@ class FMDetalVC: UIViewController {
     
     @objc func filterAction() {
         let filterView = FMFilterView(frame: UIScreen.main.bounds)
+        filterView.finishBlock = { [weak self] minAmount, maxAmount, categorys in
+            self?.viewModel.fetchData(minAmount: minAmount, maxAmount: maxAmount, categorys: categorys)
+        }
         UIApplication.shared.zy_keyWindow?.addSubview(filterView)
     }
     

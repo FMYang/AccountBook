@@ -11,9 +11,13 @@ let kFilterTopSapce = 200.0
 
 class FMFilterView: UIView {
     
+    typealias FinishBlock = ((_ minAmount: Double, _ maxAmount: Double, _ categorys: [TradeCategory]) -> Void)
+    
     var expenseDatasource = [FMCategoryModel]()
     var incomeDatasource = [FMCategoryModel]()
     var filterCategorys = [TradeCategory]()
+    
+    var finishBlock: FinishBlock?
     
     lazy var bgView: UIView = {
         let view = UIView()
@@ -237,9 +241,10 @@ class FMFilterView: UIView {
         }
         let selectedIncome = incomeDatasource.filter { $0.selected }.map { $0.catetory }
         let selectedExpense = expenseDatasource.filter { $0.selected }.map { $0.catetory }
-        let allSelected = selectedIncome + selectedExpense
-        print(allSelected, minAmount, maxAmount)
+        let categorys = selectedIncome + selectedExpense
+        print(minAmount, maxAmount, categorys)
         dismiss()
+        finishBlock?(minAmount, maxAmount, categorys)
     }
     
     @objc func resignAction() {

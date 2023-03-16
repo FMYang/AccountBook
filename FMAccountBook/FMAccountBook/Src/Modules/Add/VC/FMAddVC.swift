@@ -141,7 +141,6 @@ class FMAddVC: UIViewController {
         super.viewDidLoad()
         title = "记一笔"
         view.backgroundColor = bgColor
-//        navigationItem.hidesBackButton = true
         datasource = FMCategoryModel.datasouce(data: expenseDatasource)
         makeUI()
         addNoti()
