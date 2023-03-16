@@ -57,12 +57,17 @@ class FMAddVC: UIViewController {
         return label
     }()
     
-    lazy var textfield: UITextField = {
-        let view = UITextField()
+    lazy var textfield: FMTextField = {
+        let view = FMTextField()
+//        view.tintColor = .clear
         view.placeholder = "0.00"
         view.font = .systemFont(ofSize: 30, weight: .medium)
         view.textColor = .black
         view.keyboardType = .decimalPad
+        view.delegate = self
+        view.smartInsertDeleteType = .no // 禁用智能插入和删除
+        view.smartQuotesType = .no // 禁用智能引号
+        view.smartDashesType = .no // 禁用智能破折号
         return view
     }()
     
@@ -321,3 +326,24 @@ extension FMAddVC {
     }
 }
 
+extension FMAddVC: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // 第一个字符是0时，不允许输入数字，删除和小数点可以
+        if textField.text == "0" && (string != "" && string != ".") {
+            return false
+        }
+        // 第一个字符是小数点时
+        if string == "." {
+            let decimalCount = (textField.text?.components(separatedBy: ".").count ?? 0) - 1
+            if decimalCount >= 1 {
+                // 不允许输入多个小数点
+                return false
+            }
+            if textField.text?.isEmpty == true {
+                // 第一个字符是小数点，自动补0
+                textField.text = "0"
+            }
+        }
+        return true
+    }
+}

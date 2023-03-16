@@ -40,7 +40,8 @@ class FMDetalFooterView: UITableViewHeaderFooterView {
         addSubview(borderView)
         addSubview(coverView)
         borderView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.left.right.equalToSuperview()
+            make.height.equalTo(10)
         }
         
         coverView.snp.makeConstraints { make in

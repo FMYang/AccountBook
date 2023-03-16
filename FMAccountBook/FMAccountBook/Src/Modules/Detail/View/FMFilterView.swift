@@ -13,6 +13,7 @@ class FMFilterView: UIView {
     
     var expenseDatasource = [FMCategoryModel]()
     var incomeDatasource = [FMCategoryModel]()
+    var filterCategorys = [TradeCategory]()
     
     lazy var bgView: UIView = {
         let view = UIView()
@@ -28,6 +29,9 @@ class FMFilterView: UIView {
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+        let tapGes = UITapGestureRecognizer(target: self, action: #selector(resignAction))
+        tapGes.delegate = self
+        view.addGestureRecognizer(tapGes)
         return view
     }()
     
@@ -46,6 +50,19 @@ class FMFilterView: UIView {
         return label
     }()
     
+    lazy var minTextfiled: FMTextField = {
+        let textfiled = FMTextField()
+        textfiled.placeholder = "最低金额"
+        textfiled.font = .systemFont(ofSize: 14)
+        textfiled.textColor = .black
+        textfiled.keyboardType = .decimalPad
+        textfiled.smartInsertDeleteType = .no // 禁用智能插入和删除
+        textfiled.smartQuotesType = .no // 禁用智能引号
+        textfiled.smartDashesType = .no // 禁用智能破折号
+        textfiled.delegate = self
+        return textfiled
+    }()
+    
     lazy var minAmountView: UIView = {
         let view = UIView()
         view.backgroundColor = .lightGray.withAlphaComponent(0.3)
@@ -56,22 +73,16 @@ class FMFilterView: UIView {
         label.text = "¥"
         label.textColor = .black
         label.font = .systemFont(ofSize: 14)
-        
-        let textfiled = UITextField()
-        textfiled.placeholder = "最低金额"
-        textfiled.font = .systemFont(ofSize: 14)
-        textfiled.textColor = .black
-        textfiled.keyboardType = .decimalPad
 
         view.addSubview(label)
-        view.addSubview(textfiled)
+        view.addSubview(minTextfiled)
         label.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(10)
             make.width.equalTo(10)
             make.centerY.equalToSuperview()
         }
         
-        textfiled.snp.makeConstraints { make in
+        minTextfiled.snp.makeConstraints { make in
             make.left.equalTo(label.snp.right).offset(10)
             make.right.equalToSuperview().offset(-10)
             make.top.bottom.equalToSuperview()
@@ -88,6 +99,20 @@ class FMFilterView: UIView {
         return label
     }()
     
+    lazy var maxTextfiled: FMTextField = {
+        let textfiled = FMTextField()
+        textfiled.tag = 0
+        textfiled.placeholder = "最高金额"
+        textfiled.font = .systemFont(ofSize: 14)
+        textfiled.textColor = .black
+        textfiled.keyboardType = .decimalPad
+        textfiled.smartInsertDeleteType = .no // 禁用智能插入和删除
+        textfiled.smartQuotesType = .no // 禁用智能引号
+        textfiled.smartDashesType = .no // 禁用智能破折号
+        textfiled.delegate = self
+        return textfiled
+    }()
+    
     lazy var maxAmountView: UIView = {
         let view = UIView()
         view.backgroundColor = .lightGray.withAlphaComponent(0.3)
@@ -98,22 +123,16 @@ class FMFilterView: UIView {
         label.text = "¥"
         label.textColor = .black
         label.font = .systemFont(ofSize: 14)
-        
-        let textfiled = UITextField()
-        textfiled.placeholder = "最高金额"
-        textfiled.font = .systemFont(ofSize: 14)
-        textfiled.textColor = .black
-        textfiled.keyboardType = .decimalPad
-        
+
         view.addSubview(label)
-        view.addSubview(textfiled)
+        view.addSubview(maxTextfiled)
         label.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(10)
             make.width.equalTo(10)
             make.centerY.equalToSuperview()
         }
         
-        textfiled.snp.makeConstraints { make in
+        maxTextfiled.snp.makeConstraints { make in
             make.left.equalTo(label.snp.right).offset(10)
             make.right.equalToSuperview().offset(-10)
             make.top.bottom.equalToSuperview()
@@ -140,6 +159,28 @@ class FMFilterView: UIView {
         view.register(FMFilterFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "footer")
         view.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         return view
+    }()
+    
+    lazy var resetButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("重置", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 16)
+        btn.addTarget(self, action: #selector(resetAction), for: .touchUpInside)
+        return btn
+    }()
+    
+    lazy var finishedButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("完成", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 16)
+        btn.layer.cornerRadius = 20
+        btn.layer.masksToBounds = true
+        btn.layer.borderWidth = 0.5
+        btn.layer.borderColor = UIColor.black.cgColor
+        btn.addTarget(self, action: #selector(finishAction), for: .touchUpInside)
+        return btn
     }()
 
     override init(frame: CGRect) {
@@ -179,6 +220,32 @@ class FMFilterView: UIView {
         removeFromSuperview()
     }
     
+    @objc func resetAction() {
+        expenseDatasource.forEach { $0.selected = false }
+        incomeDatasource.forEach { $0.selected = false }
+        collectionView.reloadData()
+    }
+    
+    @objc func finishAction() {
+        var minAmount = 0.0
+        var maxAmount = 0.0
+        if (minTextfiled.text?.count ?? 0) > 0 {
+            minAmount = Double((minTextfiled.text ?? "0")) ?? 0.0
+        }
+        if (maxTextfiled.text?.count ?? 0) > 0 {
+            maxAmount = Double((maxTextfiled.text ?? "0")) ?? 0.0
+        }
+        let selectedIncome = incomeDatasource.filter { $0.selected }.map { $0.catetory }
+        let selectedExpense = expenseDatasource.filter { $0.selected }.map { $0.catetory }
+        let allSelected = selectedIncome + selectedExpense
+        print(allSelected, minAmount, maxAmount)
+        dismiss()
+    }
+    
+    @objc func resignAction() {
+        UIApplication.shared.zy_keyWindow?.endEditing(true)
+    }
+    
     func makeUI() {
         addSubview(bgView)
         addSubview(contentView)
@@ -189,6 +256,8 @@ class FMFilterView: UIView {
         contentView.addSubview(maxAmountView)
         contentView.addSubview(categoryLabel)
         contentView.addSubview(collectionView)
+        contentView.addSubview(resetButton)
+        contentView.addSubview(finishedButton)
         
         bgView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -233,7 +302,22 @@ class FMFilterView: UIView {
         
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(categoryLabel.snp.bottom).offset(10)
-            make.left.right.bottom.equalToSuperview()
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(resetButton.snp.top).offset(-10)
+        }
+        
+        resetButton.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(10)
+            make.bottom.equalToSuperview().offset(-kSafeAreaInsets.bottom)
+            make.width.equalTo(100)
+            make.height.equalTo(40)
+        }
+        
+        finishedButton.snp.makeConstraints { make in
+            make.centerY.equalTo(resetButton)
+            make.right.equalToSuperview().offset(-20)
+            make.width.equalTo(150)
+            make.height.equalTo(40)
         }
     }
 }
@@ -262,14 +346,13 @@ extension FMFilterView: UICollectionViewDataSource, UICollectionViewDelegate, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        UIApplication.shared.zy_keyWindow?.endEditing(true)
         if indexPath.section == 0 {
-            expenseDatasource.forEach { $0.selected = false }
-            var model = expenseDatasource[indexPath.row]
-            model.selected = true
+            let model = expenseDatasource[indexPath.row]
+            model.selected = !model.selected
         } else {
-            incomeDatasource.forEach { $0.selected = false }
-            var model = incomeDatasource[indexPath.row]
-            model.selected = true
+            let model = incomeDatasource[indexPath.row]
+            model.selected = !model.selected
         }
         collectionView.reloadData()
     }
@@ -308,5 +391,36 @@ extension FMFilterView: UICollectionViewDataSource, UICollectionViewDelegate, UI
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         return CGSize(width: kScreenWidth, height: 20.0)
+    }
+}
+
+extension FMFilterView: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if touch.view?.isDescendant(of: self.collectionView) == true {
+            return false
+        }
+        return true
+    }
+}
+
+extension FMFilterView: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // 第一个字符是0时，不允许输入数字，删除和小数点可以
+        if textField.text == "0" && (string != "" && string != ".") {
+            return false
+        }
+        // 第一个字符是小数点时
+        if string == "." {
+            let decimalCount = (textField.text?.components(separatedBy: ".").count ?? 0) - 1
+            if decimalCount >= 1 {
+                // 不允许输入多个小数点
+                return false
+            }
+            if textField.text?.isEmpty == true {
+                // 第一个字符是小数点，自动补0
+                textField.text = "0"
+            }
+        }
+        return true
     }
 }

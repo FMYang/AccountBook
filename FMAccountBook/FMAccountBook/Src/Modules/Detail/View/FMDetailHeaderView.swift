@@ -24,8 +24,15 @@ class FMDetailHeaderView: UITableViewHeaderFooterView {
     
     lazy var monthLabel: UILabel = {
         let label = UILabel()
-        label.text = "3月"
+        label.text = ""
         label.font = .systemFont(ofSize: 50, weight: .light)
+        return label
+    }()
+    
+    lazy var yearLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = .systemFont(ofSize: 20, weight: .light)
         return label
     }()
     
@@ -81,6 +88,13 @@ class FMDetailHeaderView: UITableViewHeaderFooterView {
         //        let url = URL(string: "https://picsum.photos/600/400")!
         //        bgImageView.kf.setImage(with: .network(url))
         monthLabel.text = model.month + "月"
+        if let y = Int(model.year), let curYear = Calendar.currentYear() {
+            if y != curYear {
+                yearLabel.text = "/ \(y)"
+            } else {
+                yearLabel.text = ""
+            }
+        }
         bgImageView.image = UIImage(named: model.imageName)
         expenseLabel.text = String(format: "¥ %.2f", model.totalExpense)
         incomeLabel.text = String(format: "¥ %.2f", model.totalIncome)
@@ -91,6 +105,7 @@ class FMDetailHeaderView: UITableViewHeaderFooterView {
         addSubview(bgImageView)
         addSubview(coverView)
         addSubview(monthLabel)
+        addSubview(yearLabel)
         addSubview(expenseTitleLabel)
         addSubview(expenseLabel)
         addSubview(incomeTitleLabel)
@@ -111,6 +126,11 @@ class FMDetailHeaderView: UITableViewHeaderFooterView {
             make.top.equalToSuperview().offset(20)
             make.left.equalToSuperview().offset(20)
             make.height.equalTo(44)
+        }
+        
+        yearLabel.snp.makeConstraints { make in
+            make.left.equalTo(monthLabel.snp.right).offset(0)
+            make.bottom.equalTo(monthLabel)
         }
         
         expenseTitleLabel.snp.makeConstraints { make in

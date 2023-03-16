@@ -9,6 +9,7 @@ target 'FMAccountBook' do
   pod 'SnapKit'
   pod 'FMDB'
   pod 'Kingfisher'
+  pod 'KafkaRefresh'
   
   # 数据库调试
   pod 'DatabaseVisual', :git => 'https://github.com/FMYang/DatabaseVisual.git'

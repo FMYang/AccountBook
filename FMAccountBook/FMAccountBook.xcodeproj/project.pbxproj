@@ -66,6 +66,8 @@
 		88B8293929C1A37F005F52A8 /* FMDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8293829C1A37F005F52A8 /* FMDatePickerView.swift */; };
 		88B8293B29C1A483005F52A8 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8293A29C1A483005F52A8 /* UIView+Extension.swift */; };
 		88B8293D29C1D9E3005F52A8 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8293C29C1D9E3005F52A8 /* UIApplication+Extension.swift */; };
+		88B8293F29C2B683005F52A8 /* UIView+Refresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8293E29C2B683005F52A8 /* UIView+Refresh.swift */; };
+		88B8294329C3086C005F52A8 /* FMTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8294229C3086C005F52A8 /* FMTextField.swift */; };
 		EA2C8A6529C20F4900FE3BA9 /* FMFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2C8A6429C20F4900FE3BA9 /* FMFilterView.swift */; };
 		EA2C8A6729C21C6F00FE3BA9 /* FMFilterItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2C8A6629C21C6F00FE3BA9 /* FMFilterItemCell.swift */; };
 		EA2C8A6929C21FB100FE3BA9 /* FMFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2C8A6829C21FB100FE3BA9 /* FMFilterHeaderView.swift */; };
@@ -135,6 +137,8 @@
 		88B8293829C1A37F005F52A8 /* FMDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMDatePickerView.swift; sourceTree = "<group>"; };
 		88B8293A29C1A483005F52A8 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		88B8293C29C1D9E3005F52A8 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
+		88B8293E29C2B683005F52A8 /* UIView+Refresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Refresh.swift"; sourceTree = "<group>"; };
+		88B8294229C3086C005F52A8 /* FMTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMTextField.swift; sourceTree = "<group>"; };
 		9424A18179DA89052ED9C6EA /* Pods_FMAccountBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FMAccountBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA2C8A6429C20F4900FE3BA9 /* FMFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMFilterView.swift; sourceTree = "<group>"; };
 		EA2C8A6629C21C6F00FE3BA9 /* FMFilterItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMFilterItemCell.swift; sourceTree = "<group>"; };
@@ -291,6 +295,7 @@
 				88B828F129C07CB5005F52A8 /* Calendar+Extension.swift */,
 				88B8293A29C1A483005F52A8 /* UIView+Extension.swift */,
 				88B8293C29C1D9E3005F52A8 /* UIApplication+Extension.swift */,
+				88B8293E29C2B683005F52A8 /* UIView+Refresh.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -338,6 +343,7 @@
 				EA2C8A6629C21C6F00FE3BA9 /* FMFilterItemCell.swift */,
 				EA2C8A6829C21FB100FE3BA9 /* FMFilterHeaderView.swift */,
 				EA2C8A6A29C220F100FE3BA9 /* FMFilterFooterView.swift */,
+				88B8294229C3086C005F52A8 /* FMTextField.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -550,6 +556,7 @@
 			files = (
 				88B828E129B8891F005F52A8 /* FMCategoryCell.swift in Sources */,
 				88B828F229C07CB5005F52A8 /* Calendar+Extension.swift in Sources */,
+				88B8294329C3086C005F52A8 /* FMTextField.swift in Sources */,
 				88B828EE29C027FC005F52A8 /* FMDetalFooterView.swift in Sources */,
 				88B828EA29B9D569005F52A8 /* FMDetailCell.swift in Sources */,
 				88B8293929C1A37F005F52A8 /* FMDatePickerView.swift in Sources */,
@@ -574,6 +581,7 @@
 				88B8293229C15996005F52A8 /* FMDetailViewModel.swift in Sources */,
 				88B828EC29C023F3005F52A8 /* FMDetailHeaderView.swift in Sources */,
 				EA2C8A6729C21C6F00FE3BA9 /* FMFilterItemCell.swift in Sources */,
+				88B8293F29C2B683005F52A8 /* UIView+Refresh.swift in Sources */,
 				88B828B329B83C99005F52A8 /* SceneDelegate.swift in Sources */,
 				88B8293D29C1D9E3005F52A8 /* UIApplication+Extension.swift in Sources */,
 				88B828D229B86D72005F52A8 /* DBManager.swift in Sources */,

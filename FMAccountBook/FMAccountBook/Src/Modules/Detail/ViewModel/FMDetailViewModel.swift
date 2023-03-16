@@ -11,49 +11,37 @@ import UIKit
 class FMDetailViewModel {
     
     var listDataChangedBlock: (()->())?
+    var listData: [FMDetailListModel] = []
     
-    var listData: [FMDetailListModel] = [] {
-        didSet {
-            listDataChangedBlock?()
-        }
+    func totalSum(tradeType: TradeType, condition: String) -> Double {
+        var totalAmount = 0.0
+        // 当前月份总支出
+        DBManager.shared.dbQueue?.inDatabase({ db in
+            let sql = "select sum(tradeAmount) as total_amount from \(FMRecord.tableName) where strftime('%Y-%m', date) = '\(condition)' and tradeType = \(tradeType.rawValue)"
+            do {
+                let ret = try db.executeQuery(sql, values: nil)
+                while ret.next() {
+                    let amount = ret.double(forColumn: "total_amount")
+                    totalAmount = amount
+                }
+            } catch {
+                print(error)
+            }
+        })
+        return totalAmount
     }
     
     func fetchData(year: Int, month: Int) {
         asyncCall { [weak self] in
             let model = FMDetailListModel()
+            model.year = "\(year)"
             model.month = "\(month)"
-            let iconName = "\(arc4random() % 29 + 1).jpeg"
-            model.imageName = iconName
+            model.imageName = "\(arc4random() % 29 + 1).jpeg"
             
             let condition = String(format: "%04d-%02d", year, month)
             
-            // 当前月份总支出
-            DBManager.shared.dbQueue?.inDatabase({ db in
-                let sql = "select sum(tradeAmount) as total_amount from \(FMRecord.tableName) where strftime('%Y-%m', date) = '\(condition)' and tradeType = \(TradeType.expense.rawValue)"
-                do {
-                    let ret = try db.executeQuery(sql, values: nil)
-                    while ret.next() {
-                        let amount = ret.double(forColumn: "total_amount")
-                        model.totalExpense = amount
-                    }
-                } catch {
-                    print(error)
-                }
-            })
-
-            // 当前月份总收入
-            DBManager.shared.dbQueue?.inDatabase({ db in
-                let sql = "select sum(tradeAmount) as total_amount from \(FMRecord.tableName) where strftime('%Y-%m', date) = '\(condition)' and tradeType = \(TradeType.income.rawValue)"
-                do {
-                    let ret = try db.executeQuery(sql, values: nil)
-                    while ret.next() {
-                        let amount = ret.double(forColumn: "total_amount")
-                        model.totalIncome = amount
-                    }
-                } catch {
-                    print(error)
-                }
-            })
+            model.totalExpense = self?.totalSum(tradeType: .expense, condition: condition) ?? 0.0
+            model.totalIncome = self?.totalSum(tradeType: .income, condition: condition) ?? 0.0
 
             // 当前月份记录
             DBManager.query(object: FMRecord.self, condition: "strftime('%Y-%m', date) = '\(condition)'", orderBy: "date", isDesc: true) { records in
@@ -67,6 +55,58 @@ class FMDetailViewModel {
             
             DispatchQueue.main.async {
                 self?.listData = model.list.count > 0 ? result : []
+                self?.listDataChangedBlock?()
+            }
+        }
+    }
+    
+    func fetchMoreData(completion: @escaping (()->())) {
+        asyncCall { [weak self] in
+            let date = self?.listData.last?.list.last?.date ?? ""
+
+            DBManager.query(object: FMRecord.self, condition: "date < '\(date)'", orderBy: "date", isDesc: true) { [weak self] records in
+                if let data = records as? [FMRecord] {
+                    for record in data {
+                        let year = "\(String.year(date: record.date))"
+                        let month = "\(String.month(date: record.date))"
+                        let existModel = self?.listData.first { $0.year == year && $0.month == month }
+                        if existModel != nil {
+                            existModel?.list.append(record)
+                        } else {
+                            let model = FMDetailListModel()
+                            model.imageName = "\(arc4random() % 29 + 1).jpeg"
+                            model.year = year
+                            model.month = month
+                            model.list.append(record)
+                            self?.listData.append(model)
+                        }
+                    }
+                }
+            }
+            
+            if let list = self?.listData {
+                for data in list {
+                    if data.list.count > 0 {
+                        let record = data.list.first!
+                        if data.totalIncome < 0.1 {
+                            let y = String.year(date: record.date)
+                            let m = String.month(date: record.date)
+                            let condition = String(format: "%04d-%02d", y, m)
+                            data.totalIncome = self?.totalSum(tradeType: .income, condition: condition) ?? 0.0
+                        }
+                        if data.totalExpense < 0.1 {
+                            let y = String.year(date: record.date)
+                            let m = String.month(date: record.date)
+                            let condition = String(format: "%04d-%02d", y, m)
+                            data.totalExpense = self?.totalSum(tradeType: .expense, condition: condition) ?? 0.0
+                        }
+                    }
+                }
+            }
+            
+            DispatchQueue.main.async {
+                self?.listDataChangedBlock?()
+                completion()
             }
         }
     }

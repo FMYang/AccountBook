@@ -7,6 +7,7 @@
 
 import UIKit
 import DatabaseVisual
+import KafkaRefresh
 
 class FMDetalVC: UIViewController {
     
@@ -111,6 +112,12 @@ class FMDetalVC: UIViewController {
         addLongPressGes()
         bindViewModel()
         loadData()
+        configRefresh()
+    }
+        
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.barTintColor = UIColor.red
     }
     
     func bindViewModel() {
@@ -123,10 +130,20 @@ class FMDetalVC: UIViewController {
     func loadData() {
         viewModel.fetchData(year: year, month: month)
     }
+    
+    func configRefresh() {
+        tableView.bindGlobalStyle(forHeadRefreshHandler: { [weak self] in
+            self?.loadData()
+            self?.tableView.headRefreshControl?.endRefreshing()
+            self?.tableView.footRefreshControl?.endRefreshing()
+        })
         
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.barTintColor = UIColor.red
+        tableView.bindGlobalStyle(forFootRefreshHandler: { [weak self] in
+            self?.viewModel.fetchMoreData(completion: { [weak self] in
+                self?.tableView.headRefreshControl?.endRefreshing()
+                self?.tableView.footRefreshControl?.endRefreshing()
+            })
+        })
     }
     
     @objc func addAction() {
@@ -274,7 +291,7 @@ extension FMDetalVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 10.0
+        return 30.0
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             DBManager.create(tables: tables)
             DBManager.upgrade(tables: tables)
         }
-        Calendar.getDaysArray(year: 2023, month: 2)
+        UIView.configRefreshStyle()
         return true
     }
 

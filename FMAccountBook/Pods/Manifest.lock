@@ -3,18 +3,55 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
+  - KafkaRefresh (1.5.0):
+    - KafkaRefresh/Category (= 1.5.0)
+    - KafkaRefresh/Configuration (= 1.5.0)
+    - KafkaRefresh/Core (= 1.5.0)
+    - KafkaRefresh/Default (= 1.5.0)
+    - KafkaRefresh/Style (= 1.5.0)
+    - KafkaRefresh/UIKit (= 1.5.0)
+  - KafkaRefresh/Category (1.5.0)
+  - KafkaRefresh/Configuration (1.5.0):
+    - KafkaRefresh/UIKit/FootKit
+    - KafkaRefresh/UIKit/HeadKit
+  - KafkaRefresh/Core (1.5.0):
+    - KafkaRefresh/Category
+  - KafkaRefresh/Default (1.5.0):
+    - KafkaRefresh/Style
+  - KafkaRefresh/Style (1.5.0)
+  - KafkaRefresh/UIKit (1.5.0):
+    - KafkaRefresh/UIKit/FootKit (= 1.5.0)
+    - KafkaRefresh/UIKit/HeadKit (= 1.5.0)
+    - KafkaRefresh/UIKit/LayerKit (= 1.5.0)
+  - KafkaRefresh/UIKit/FootKit (1.5.0):
+    - KafkaRefresh/Category
+    - KafkaRefresh/Core
+    - KafkaRefresh/Default
+    - KafkaRefresh/Style
+    - KafkaRefresh/UIKit/LayerKit
+  - KafkaRefresh/UIKit/HeadKit (1.5.0):
+    - KafkaRefresh/Category
+    - KafkaRefresh/Core
+    - KafkaRefresh/Default
+    - KafkaRefresh/Style
+    - KafkaRefresh/UIKit/LayerKit
+  - KafkaRefresh/UIKit/LayerKit (1.5.0):
+    - KafkaRefresh/Category
+    - KafkaRefresh/Default
   - Kingfisher (7.6.2)
   - SnapKit (5.6.0)
 
 DEPENDENCIES:
   - DatabaseVisual (from `https://github.com/FMYang/DatabaseVisual.git`)
   - FMDB
+  - KafkaRefresh
   - Kingfisher
   - SnapKit
 
 SPEC REPOS:
   trunk:
     - FMDB
+    - KafkaRefresh
     - Kingfisher
     - SnapKit
 
@@ -30,9 +67,10 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   DatabaseVisual: a7749391100bd1ef9cb5e31b3692dea492defcdc
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  KafkaRefresh: 01645b1509b8647809f6bb666629c80855bd3fdd
   Kingfisher: 6c5449c6450c5239166510ba04afe374a98afc4f
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: e4d524026feee509cd1d4a4b0a48333e8e75bff7
+PODFILE CHECKSUM: fec96ec50aa60b4503a43deee3f71771c46dd6bb
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.11.3
