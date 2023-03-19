@@ -84,7 +84,6 @@ class FMDetalVC: UIViewController {
         view.register(FMDetailCell.self, forCellReuseIdentifier: "cell")
         view.register(FMDetailHeaderView.self, forHeaderFooterViewReuseIdentifier: "header")
         view.register(FMDetalFooterView.self, forHeaderFooterViewReuseIdentifier: "footer")
-        view.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         return view
     }()
     

@@ -36,12 +36,12 @@ class DBManager {
     // MARK: - public method
     
     // 创建表
-    public static func create<T: DBProtocol>(tables: [T.Type]) {
+    public static func create(tables: [DBProtocol.Type]) {
         tables.forEach { createTable(object: $0) }
     }
     
     // 升级表
-    public static func upgrade<T: DBProtocol>(tables: [T.Type]) {
+    public static func upgrade(tables: [DBProtocol.Type]) {
         tables.forEach { upgrade(object: $0) }
     }
     

@@ -172,7 +172,7 @@ enum TradeCategory: Int {
 
 class FMRecord {
     // 交易id
-    var id: Int = 0
+    var record_id: Int = 0
     // 交易金额
     var tradeAmount: Double = 0.0
     // 交易类型
@@ -181,8 +181,6 @@ class FMRecord {
     var category: TradeCategory = .dining
     // 交易日期
     var date: String = ""
-    // 所属账本
-    var accountBookIds: String?
 }
 
 extension FMRecord: DBProtocol {
@@ -192,30 +190,28 @@ extension FMRecord: DBProtocol {
     }
     
     static var columns: [[String : String]] {
-        return [["id": "integer"],
+        return [["record_id": "integer"],
                 ["tradeAmount": "real"],
                 ["tradeType": "integer"],
                 ["category": "integer"],
-                ["date": "text"],
-                ["accountBookIds": "text"]]
+                ["date": "text"]]
     }
     
     static var createSql: String {
-        return "create table if not exists \(tableName) (id integer primary key, tradeAmount real, tradeType integer, category integer, date text, accountBookIds text)"
+        return "create table if not exists \(tableName) (record_id integer primary key, tradeAmount real, tradeType integer, category integer, date text)"
     }
     
     var insertSql: String {
-        return "insert or replace into \(FMRecord.tableName) (tradeAmount, tradeType, category, date, accountBookIds) values (\(tradeAmount), \(tradeType.rawValue), \(category.rawValue), '\(date)', '\(accountBookIds ?? "")')"
+        return "insert or replace into \(FMRecord.tableName) (tradeAmount, tradeType, category, date) values (\(tradeAmount), \(tradeType.rawValue), \(category.rawValue), '\(date)')"
     }
     
     static func toModel(resultSet: FMResultSet) -> DBProtocol {
         let record = FMRecord()
-        record.id = Int(resultSet.int(forColumn: "id"))
+        record.record_id = Int(resultSet.int(forColumn: "record_id"))
         record.tradeAmount = resultSet.double(forColumn: "tradeAmount")
         record.tradeType = TradeType(rawValue: Int(resultSet.int(forColumn: "tradeType"))) ?? .expense
         record.category = TradeCategory(rawValue: Int(resultSet.int(forColumn: "category"))) ?? .dining
         record.date = resultSet.string(forColumn: "date") ?? ""
-        record.accountBookIds = resultSet.string(forColumn: "accountBookIds")
         return record
     }
 }

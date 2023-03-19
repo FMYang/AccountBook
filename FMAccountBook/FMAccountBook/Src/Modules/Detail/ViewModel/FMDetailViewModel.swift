@@ -203,6 +203,6 @@ class FMDetailViewModel {
     
     func delete(indexPath: IndexPath) {
         let record = listData[indexPath.section].list[indexPath.row]
-        asyncCall { DBManager.delete(object: FMRecord.self, condition: "id = \(record.id)") }
+        asyncCall { DBManager.delete(object: FMRecord.self, condition: "id = \(record.record_id)") }
     }
 }

@@ -24,7 +24,7 @@
 		88B828DD29B88620005F52A8 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B828DC29B88620005F52A8 /* UIColor+Extension.swift */; };
 		88B828E129B8891F005F52A8 /* FMCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B828E029B8891F005F52A8 /* FMCategoryCell.swift */; };
 		88B828E429B98D09005F52A8 /* FMCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B828E329B98D09005F52A8 /* FMCategoryModel.swift */; };
-		88B828E629B99594005F52A8 /* FMAccountBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B828E529B99594005F52A8 /* FMAccountBook.swift */; };
+		88B828E629B99594005F52A8 /* FMAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B828E529B99594005F52A8 /* FMAccount.swift */; };
 		88B828EA29B9D569005F52A8 /* FMDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B828E929B9D569005F52A8 /* FMDetailCell.swift */; };
 		88B828EC29C023F3005F52A8 /* FMDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B828EB29C023F3005F52A8 /* FMDetailHeaderView.swift */; };
 		88B828EE29C027FC005F52A8 /* FMDetalFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B828ED29C027FC005F52A8 /* FMDetalFooterView.swift */; };
@@ -72,6 +72,8 @@
 		EA2C8A6729C21C6F00FE3BA9 /* FMFilterItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2C8A6629C21C6F00FE3BA9 /* FMFilterItemCell.swift */; };
 		EA2C8A6929C21FB100FE3BA9 /* FMFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2C8A6829C21FB100FE3BA9 /* FMFilterHeaderView.swift */; };
 		EA2C8A6B29C220F100FE3BA9 /* FMFilterFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2C8A6A29C220F100FE3BA9 /* FMFilterFooterView.swift */; };
+		EA2C8A6D29C6F76C00FE3BA9 /* FMAccount_Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2C8A6C29C6F76C00FE3BA9 /* FMAccount_Record.swift */; };
+		EA2C8A7229C70FC100FE3BA9 /* FMBookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2C8A7129C70FC100FE3BA9 /* FMBookCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,7 +97,7 @@
 		88B828DC29B88620005F52A8 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		88B828E029B8891F005F52A8 /* FMCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMCategoryCell.swift; sourceTree = "<group>"; };
 		88B828E329B98D09005F52A8 /* FMCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMCategoryModel.swift; sourceTree = "<group>"; };
-		88B828E529B99594005F52A8 /* FMAccountBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMAccountBook.swift; sourceTree = "<group>"; };
+		88B828E529B99594005F52A8 /* FMAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMAccount.swift; sourceTree = "<group>"; };
 		88B828E929B9D569005F52A8 /* FMDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMDetailCell.swift; sourceTree = "<group>"; };
 		88B828EB29C023F3005F52A8 /* FMDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMDetailHeaderView.swift; sourceTree = "<group>"; };
 		88B828ED29C027FC005F52A8 /* FMDetalFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMDetalFooterView.swift; sourceTree = "<group>"; };
@@ -144,6 +146,8 @@
 		EA2C8A6629C21C6F00FE3BA9 /* FMFilterItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMFilterItemCell.swift; sourceTree = "<group>"; };
 		EA2C8A6829C21FB100FE3BA9 /* FMFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMFilterHeaderView.swift; sourceTree = "<group>"; };
 		EA2C8A6A29C220F100FE3BA9 /* FMFilterFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMFilterFooterView.swift; sourceTree = "<group>"; };
+		EA2C8A6C29C6F76C00FE3BA9 /* FMAccount_Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMAccount_Record.swift; sourceTree = "<group>"; };
+		EA2C8A7129C70FC100FE3BA9 /* FMBookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMBookCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,7 +257,9 @@
 		88B828C929B83D80005F52A8 /* Book */ = {
 			isa = PBXGroup;
 			children = (
-				88B828CE29B840D6005F52A8 /* FMBookVC.swift */,
+				EA2C8A7029C70EFE00FE3BA9 /* View */,
+				EA2C8A6F29C70EFA00FE3BA9 /* ViewModel */,
+				EA2C8A6E29C70EF600FE3BA9 /* VC */,
 			);
 			path = Book;
 			sourceTree = "<group>";
@@ -263,7 +269,8 @@
 			children = (
 				88B828D129B86D72005F52A8 /* DBManager.swift */,
 				88B828D929B8751A005F52A8 /* FMRecord.swift */,
-				88B828E529B99594005F52A8 /* FMAccountBook.swift */,
+				88B828E529B99594005F52A8 /* FMAccount.swift */,
+				EA2C8A6C29C6F76C00FE3BA9 /* FMAccount_Record.swift */,
 			);
 			path = DB;
 			sourceTree = "<group>";
@@ -407,6 +414,29 @@
 				9424A18179DA89052ED9C6EA /* Pods_FMAccountBook.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EA2C8A6E29C70EF600FE3BA9 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				88B828CE29B840D6005F52A8 /* FMBookVC.swift */,
+			);
+			path = VC;
+			sourceTree = "<group>";
+		};
+		EA2C8A6F29C70EFA00FE3BA9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		EA2C8A7029C70EFE00FE3BA9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				EA2C8A7129C70FC100FE3BA9 /* FMBookCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -560,15 +590,17 @@
 				88B828EE29C027FC005F52A8 /* FMDetalFooterView.swift in Sources */,
 				88B828EA29B9D569005F52A8 /* FMDetailCell.swift in Sources */,
 				88B8293929C1A37F005F52A8 /* FMDatePickerView.swift in Sources */,
-				88B828E629B99594005F52A8 /* FMAccountBook.swift in Sources */,
+				88B828E629B99594005F52A8 /* FMAccount.swift in Sources */,
 				88B828D529B86DBB005F52A8 /* Constant.swift in Sources */,
 				88B828D829B86F43005F52A8 /* FMAddVC.swift in Sources */,
 				88B828E429B98D09005F52A8 /* FMCategoryModel.swift in Sources */,
 				88B828B529B83C99005F52A8 /* ViewController.swift in Sources */,
 				88B828DD29B88620005F52A8 /* UIColor+Extension.swift in Sources */,
+				EA2C8A7229C70FC100FE3BA9 /* FMBookCell.swift in Sources */,
 				88B828CD29B840CA005F52A8 /* FMDetalVC.swift in Sources */,
 				EA2C8A6929C21FB100FE3BA9 /* FMFilterHeaderView.swift in Sources */,
 				88B8293529C159EA005F52A8 /* FMDetailListModel.swift in Sources */,
+				EA2C8A6D29C6F76C00FE3BA9 /* FMAccount_Record.swift in Sources */,
 				EA2C8A6B29C220F100FE3BA9 /* FMFilterFooterView.swift in Sources */,
 				88B8293729C1762F005F52A8 /* FMNavigationController.swift in Sources */,
 				88B828F029C04AAA005F52A8 /* String+Extension.swift in Sources */,

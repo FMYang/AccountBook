@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         DatabaseManager.sharedInstance().dbDocumentPath = DBManager.documentDir
         asyncCall {
-            let tables = [FMRecord.self]
+            let tables: [DBProtocol.Type] = [FMRecord.self, FMAccount.self, FMAccount_Record.self]
             DBManager.create(tables: tables)
             DBManager.upgrade(tables: tables)
         }
