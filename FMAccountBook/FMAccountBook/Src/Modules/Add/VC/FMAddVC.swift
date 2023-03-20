@@ -124,6 +124,18 @@ class FMAddVC: UIViewController {
         return btn
     }()
     
+    lazy var accountButton: UIButton = {
+        let btn = UIButton()
+        btn.backgroundColor = selectedColor.withAlphaComponent(0.2)
+        btn.layer.cornerRadius = 15
+        btn.layer.masksToBounds = true
+        btn.setTitle("未选择账本", for: .normal)
+        btn.setTitleColor(selectedColor, for: .normal)
+        btn.addTarget(self, action: #selector(accountAction), for: .touchUpInside)
+        btn.titleLabel?.font = .systemFont(ofSize: 14)
+        return btn
+    }()
+    
     lazy var confirmButton: UIButton = {
         let btn = UIButton()
         btn.setBackgroundImage(UIColor.createImage(color: selectedColor), for: .normal)
@@ -194,6 +206,10 @@ class FMAddVC: UIViewController {
         }
         navigationController?.view.addSubview(dateView)
     }
+    
+    @objc func accountAction() {
+        
+    }
 
     func makeUI() {
         view.addSubview(topView)
@@ -207,6 +223,7 @@ class FMAddVC: UIViewController {
         categoryView.addSubview(collectionView)
         bottomView.addSubview(confirmButton)
         view.addSubview(dateButton)
+        view.addSubview(accountButton)
         
         topView.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
@@ -267,6 +284,13 @@ class FMAddVC: UIViewController {
         dateButton.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(20)
             make.left.equalToSuperview().offset(20)
+            make.width.equalTo(140)
+            make.height.equalTo(30)
+        }
+        
+        accountButton.snp.makeConstraints { make in
+            make.centerY.equalTo(dateButton)
+            make.left.equalTo(dateButton.snp.right).offset(20)
             make.width.equalTo(140)
             make.height.equalTo(30)
         }

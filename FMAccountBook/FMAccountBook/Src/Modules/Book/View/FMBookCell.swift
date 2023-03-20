@@ -34,7 +34,7 @@ class FMBookCell: UITableViewCell {
         let label = UILabel()
         label.textColor = .black
         label.font = .systemFont(ofSize: 14)
-        label.text = "月支出  ¥ 1000.0"
+        label.text = "月支出  ¥ 0.0"
         return label
     }()
     
@@ -42,7 +42,7 @@ class FMBookCell: UITableViewCell {
         let label = UILabel()
         label.textColor = .black
         label.font = .systemFont(ofSize: 14)
-        label.text = "月收入  ¥ 1000.0"
+        label.text = "月收入  ¥ 0.0"
         return label
     }()
 
@@ -57,8 +57,9 @@ class FMBookCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func config() {
-        iconImageView.image = UIImage(named: "\(arc4random() % 29 + 1).jpeg")
+    func config(model: FMAccount) {
+        iconImageView.image = UIImage(named: model.cover)
+        nameLabel.text = model.name
     }
     
     func makeUI() {

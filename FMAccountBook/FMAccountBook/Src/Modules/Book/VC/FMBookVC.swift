@@ -9,6 +9,8 @@ import UIKit
 
 class FMBookVC: UIViewController {
     
+    let viewModel = FMBookViewModel()
+    
     lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .insetGrouped)
         view.backgroundColor = .clear
@@ -25,15 +27,28 @@ class FMBookVC: UIViewController {
         navigationItem.title = "我的账本"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addAction))
         navigationItem.rightBarButtonItem?.tintColor = .black
+        bindViewModel()
         makeUI()
+        loadData()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    func bindViewModel() {
+        viewModel.refreshBlock = { [weak self] in
+            self?.tableView.reloadData()
+        }
+    }
+    
+    func loadData() {
+        viewModel.query()
     }
     
     @objc func addAction() {
-        
+        let alert = FMAddBookAlert(title: "添加账本")
+        alert.confirmBlock = { [weak self] text in
+            self?.viewModel.addBook(name: text)
+            self?.loadData()
+        }
+        alert.show(in: self, style: .alert)
     }
     
     func makeUI() {
@@ -46,7 +61,7 @@ class FMBookVC: UIViewController {
 
 extension FMBookVC: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return viewModel.numberOfSections()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -55,7 +70,7 @@ extension FMBookVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! FMBookCell
-        cell.config()
+        cell.config(model: viewModel.data(indexPath: indexPath))
         return cell
     }
     
@@ -79,13 +94,13 @@ extension FMBookVC: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section == 0 {
+        if section == viewModel.datasource.count - 1 {
             return 0.0
         }
         return 10.0
     }
  
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-
+        viewModel.delete(indexPath: indexPath)
     }
 }

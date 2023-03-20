@@ -68,6 +68,14 @@
 		88B8293D29C1D9E3005F52A8 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8293C29C1D9E3005F52A8 /* UIApplication+Extension.swift */; };
 		88B8293F29C2B683005F52A8 /* UIView+Refresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8293E29C2B683005F52A8 /* UIView+Refresh.swift */; };
 		88B8294329C3086C005F52A8 /* FMTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8294229C3086C005F52A8 /* FMTextField.swift */; };
+		88B8294B29C7F9BC005F52A8 /* FMBaseAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8294629C7F9BB005F52A8 /* FMBaseAnimator.swift */; };
+		88B8294C29C7F9BC005F52A8 /* FMActionSheetAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8294729C7F9BB005F52A8 /* FMActionSheetAnimator.swift */; };
+		88B8294D29C7F9BC005F52A8 /* FMAlertAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8294829C7F9BB005F52A8 /* FMAlertAnimator.swift */; };
+		88B8294E29C7F9BC005F52A8 /* FMAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8294929C7F9BC005F52A8 /* FMAnimationViewController.swift */; };
+		88B8294F29C7F9BC005F52A8 /* FMBaseAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8294A29C7F9BC005F52A8 /* FMBaseAnimationView.swift */; };
+		88B8295129C7FA58005F52A8 /* FMAddBookAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8295029C7FA58005F52A8 /* FMAddBookAlert.swift */; };
+		88B8295329C7FFEE005F52A8 /* FMBookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8295229C7FFEE005F52A8 /* FMBookViewModel.swift */; };
+		88B8295629C8066F005F52A8 /* FMAccountSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B8295529C8066F005F52A8 /* FMAccountSelectView.swift */; };
 		EA2C8A6529C20F4900FE3BA9 /* FMFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2C8A6429C20F4900FE3BA9 /* FMFilterView.swift */; };
 		EA2C8A6729C21C6F00FE3BA9 /* FMFilterItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2C8A6629C21C6F00FE3BA9 /* FMFilterItemCell.swift */; };
 		EA2C8A6929C21FB100FE3BA9 /* FMFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2C8A6829C21FB100FE3BA9 /* FMFilterHeaderView.swift */; };
@@ -141,6 +149,14 @@
 		88B8293C29C1D9E3005F52A8 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		88B8293E29C2B683005F52A8 /* UIView+Refresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Refresh.swift"; sourceTree = "<group>"; };
 		88B8294229C3086C005F52A8 /* FMTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMTextField.swift; sourceTree = "<group>"; };
+		88B8294629C7F9BB005F52A8 /* FMBaseAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMBaseAnimator.swift; sourceTree = "<group>"; };
+		88B8294729C7F9BB005F52A8 /* FMActionSheetAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMActionSheetAnimator.swift; sourceTree = "<group>"; };
+		88B8294829C7F9BB005F52A8 /* FMAlertAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMAlertAnimator.swift; sourceTree = "<group>"; };
+		88B8294929C7F9BC005F52A8 /* FMAnimationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMAnimationViewController.swift; sourceTree = "<group>"; };
+		88B8294A29C7F9BC005F52A8 /* FMBaseAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMBaseAnimationView.swift; sourceTree = "<group>"; };
+		88B8295029C7FA58005F52A8 /* FMAddBookAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMAddBookAlert.swift; sourceTree = "<group>"; };
+		88B8295229C7FFEE005F52A8 /* FMBookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FMBookViewModel.swift; path = FMAccountBook/Src/Modules/Book/ViewModel/FMBookViewModel.swift; sourceTree = SOURCE_ROOT; };
+		88B8295529C8066F005F52A8 /* FMAccountSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMAccountSelectView.swift; sourceTree = "<group>"; };
 		9424A18179DA89052ED9C6EA /* Pods_FMAccountBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FMAccountBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA2C8A6429C20F4900FE3BA9 /* FMFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMFilterView.swift; sourceTree = "<group>"; };
 		EA2C8A6629C21C6F00FE3BA9 /* FMFilterItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMFilterItemCell.swift; sourceTree = "<group>"; };
@@ -257,8 +273,8 @@
 		88B828C929B83D80005F52A8 /* Book */ = {
 			isa = PBXGroup;
 			children = (
+				88B8295429C7FFFB005F52A8 /* ViewModel */,
 				EA2C8A7029C70EFE00FE3BA9 /* View */,
-				EA2C8A6F29C70EFA00FE3BA9 /* ViewModel */,
 				EA2C8A6E29C70EF600FE3BA9 /* VC */,
 			);
 			path = Book;
@@ -280,6 +296,7 @@
 			children = (
 				88B828D429B86DBB005F52A8 /* Constant.swift */,
 				88B828DB29B8860C005F52A8 /* Extension */,
+				88B8294429C7F918005F52A8 /* Utils */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -351,6 +368,7 @@
 				EA2C8A6829C21FB100FE3BA9 /* FMFilterHeaderView.swift */,
 				EA2C8A6A29C220F100FE3BA9 /* FMFilterFooterView.swift */,
 				88B8294229C3086C005F52A8 /* FMTextField.swift */,
+				88B8295529C8066F005F52A8 /* FMAccountSelectView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -408,6 +426,34 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		88B8294429C7F918005F52A8 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				88B8294529C7F927005F52A8 /* FMAnimationViewController */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		88B8294529C7F927005F52A8 /* FMAnimationViewController */ = {
+			isa = PBXGroup;
+			children = (
+				88B8294729C7F9BB005F52A8 /* FMActionSheetAnimator.swift */,
+				88B8294829C7F9BB005F52A8 /* FMAlertAnimator.swift */,
+				88B8294929C7F9BC005F52A8 /* FMAnimationViewController.swift */,
+				88B8294A29C7F9BC005F52A8 /* FMBaseAnimationView.swift */,
+				88B8294629C7F9BB005F52A8 /* FMBaseAnimator.swift */,
+			);
+			path = FMAnimationViewController;
+			sourceTree = "<group>";
+		};
+		88B8295429C7FFFB005F52A8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				88B8295229C7FFEE005F52A8 /* FMBookViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		C2053E09E4ACB3BDA743EA1D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -424,17 +470,11 @@
 			path = VC;
 			sourceTree = "<group>";
 		};
-		EA2C8A6F29C70EFA00FE3BA9 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
 		EA2C8A7029C70EFE00FE3BA9 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				EA2C8A7129C70FC100FE3BA9 /* FMBookCell.swift */,
+				88B8295029C7FA58005F52A8 /* FMAddBookAlert.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -588,26 +628,34 @@
 				88B828F229C07CB5005F52A8 /* Calendar+Extension.swift in Sources */,
 				88B8294329C3086C005F52A8 /* FMTextField.swift in Sources */,
 				88B828EE29C027FC005F52A8 /* FMDetalFooterView.swift in Sources */,
+				88B8295129C7FA58005F52A8 /* FMAddBookAlert.swift in Sources */,
 				88B828EA29B9D569005F52A8 /* FMDetailCell.swift in Sources */,
 				88B8293929C1A37F005F52A8 /* FMDatePickerView.swift in Sources */,
 				88B828E629B99594005F52A8 /* FMAccount.swift in Sources */,
 				88B828D529B86DBB005F52A8 /* Constant.swift in Sources */,
 				88B828D829B86F43005F52A8 /* FMAddVC.swift in Sources */,
 				88B828E429B98D09005F52A8 /* FMCategoryModel.swift in Sources */,
+				88B8294E29C7F9BC005F52A8 /* FMAnimationViewController.swift in Sources */,
+				88B8294D29C7F9BC005F52A8 /* FMAlertAnimator.swift in Sources */,
+				88B8294C29C7F9BC005F52A8 /* FMActionSheetAnimator.swift in Sources */,
 				88B828B529B83C99005F52A8 /* ViewController.swift in Sources */,
 				88B828DD29B88620005F52A8 /* UIColor+Extension.swift in Sources */,
 				EA2C8A7229C70FC100FE3BA9 /* FMBookCell.swift in Sources */,
 				88B828CD29B840CA005F52A8 /* FMDetalVC.swift in Sources */,
+				88B8294F29C7F9BC005F52A8 /* FMBaseAnimationView.swift in Sources */,
 				EA2C8A6929C21FB100FE3BA9 /* FMFilterHeaderView.swift in Sources */,
 				88B8293529C159EA005F52A8 /* FMDetailListModel.swift in Sources */,
 				EA2C8A6D29C6F76C00FE3BA9 /* FMAccount_Record.swift in Sources */,
 				EA2C8A6B29C220F100FE3BA9 /* FMFilterFooterView.swift in Sources */,
 				88B8293729C1762F005F52A8 /* FMNavigationController.swift in Sources */,
+				88B8295629C8066F005F52A8 /* FMAccountSelectView.swift in Sources */,
 				88B828F029C04AAA005F52A8 /* String+Extension.swift in Sources */,
 				EA2C8A6529C20F4900FE3BA9 /* FMFilterView.swift in Sources */,
+				88B8295329C7FFEE005F52A8 /* FMBookViewModel.swift in Sources */,
 				88B828CB29B84027005F52A8 /* FMTabbarController.swift in Sources */,
 				88B828DA29B8751A005F52A8 /* FMRecord.swift in Sources */,
 				88B828B129B83C99005F52A8 /* AppDelegate.swift in Sources */,
+				88B8294B29C7F9BC005F52A8 /* FMBaseAnimator.swift in Sources */,
 				88B8293B29C1A483005F52A8 /* UIView+Extension.swift in Sources */,
 				88B828CF29B840D6005F52A8 /* FMBookVC.swift in Sources */,
 				88B8293229C15996005F52A8 /* FMDetailViewModel.swift in Sources */,
