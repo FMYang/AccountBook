@@ -23,7 +23,7 @@ class FMAddBookAlert: FMBaseAnimationView {
     lazy var textBgView: UIView = {
         let view = UITextField()
         view.layer.cornerRadius = 8
-        view.layer.borderColor = UIColor.black.withAlphaComponent(0.6).cgColor
+        view.layer.borderColor = UIColor.gray.withAlphaComponent(0.5).cgColor
         view.layer.borderWidth = 0.5
         return view
     }()

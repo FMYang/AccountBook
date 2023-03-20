@@ -239,6 +239,15 @@ class FMFilterView: UIView {
         if (maxTextfiled.text?.count ?? 0) > 0 {
             maxAmount = Double((maxTextfiled.text ?? "0")) ?? 0.0
         }
+        
+        if minAmount > maxAmount {
+            let alert = FMAlertView(title: "温馨提示", message: "[最低金额]不能大于[最高金额]", cancelTitle: nil)
+            if let vc = topViewController() {
+                alert.show(in: vc, style: .alert)
+            }
+            return
+        }
+        
         let selectedIncome = incomeDatasource.filter { $0.selected }.map { $0.catetory }
         let selectedExpense = expenseDatasource.filter { $0.selected }.map { $0.catetory }
         let categorys = selectedIncome + selectedExpense

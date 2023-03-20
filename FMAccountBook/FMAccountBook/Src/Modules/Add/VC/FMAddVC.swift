@@ -177,7 +177,7 @@ class FMAddVC: UIViewController {
         }
     }
     
-    @objc func confirmAction() {
+    @objc func confirmAction() {        
         var dateString = String.currentDate(dateFormat: .date_en)
         let date_cn = String.currentDate(dateFormat: .date_cn)
         if let dateText = dateButton.titleLabel?.text, dateText != date_cn {
@@ -208,7 +208,8 @@ class FMAddVC: UIViewController {
     }
     
     @objc func accountAction() {
-        
+        let view = FMAccountSelectView(frame: UIScreen.main.bounds)
+        navigationController?.view.addSubview(view)
     }
 
     func makeUI() {
