@@ -242,7 +242,7 @@ class FMFilterView: UIView {
         
         if minAmount > maxAmount {
             let alert = FMAlertView(title: "温馨提示", message: "[最低金额]不能大于[最高金额]", cancelTitle: nil)
-            if let vc = topViewController() {
+            if let vc = UIApplication.shared.zy_keyWindow?.rootViewController {
                 alert.show(in: vc, style: .alert)
             }
             return

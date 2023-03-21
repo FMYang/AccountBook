@@ -37,7 +37,7 @@ class FMDetailViewModel {
             let model = FMDetailListModel()
             model.year = "\(year)"
             model.month = "\(month)"
-            model.imageName = "\(arc4random() % 29 + 1).jpeg"
+            model.imageName = "\(month).jpeg"
             
             let condition = String(format: "%04d-%02d", year, month)
             

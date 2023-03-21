@@ -17,7 +17,7 @@ class FMBookViewModel {
         return datasource.count
     }
     
-    func data(indexPath: IndexPath) -> FMAccount {
+    func model(indexPath: IndexPath) -> FMAccount {
         return datasource[indexPath.section]
     }
     

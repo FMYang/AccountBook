@@ -12,7 +12,7 @@ extension UIView {
         var responder: UIResponder? = self.subviews.first
         while responder != nil {
             responder = responder!.next
-            if responder?.isKind(of: UIViewController.self) != nil {
+            if responder?.isKind(of: UIViewController.self) == true {
                 return responder as? UIViewController
             }
         }

@@ -25,6 +25,13 @@ class FMDetailCell: UITableViewCell {
         view.image = UIColor.createImage(color: UIColor.gray.withAlphaComponent(0.2))
         return view
     }()
+    
+    lazy var bottomLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = .gray.withAlphaComponent(0.2)
+        view.isHidden = true
+        return view
+    }()
         
     lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
@@ -75,6 +82,7 @@ class FMDetailCell: UITableViewCell {
         bgView.addSubview(dateLabel)
         bgView.addSubview(leftLine)
         bgView.addSubview(rigthLine)
+        bgView.addSubview(bottomLine)
         
         bgView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -111,6 +119,12 @@ class FMDetailCell: UITableViewCell {
         rigthLine.snp.makeConstraints { make in
             make.top.bottom.right.equalToSuperview()
             make.width.equalTo(0.5)
+        }
+        
+        bottomLine.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(20)
+            make.bottom.right.equalToSuperview()
+            make.height.equalTo(0.5)
         }
     }
 }

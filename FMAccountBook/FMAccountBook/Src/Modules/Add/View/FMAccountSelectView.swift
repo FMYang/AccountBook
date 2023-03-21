@@ -10,6 +10,10 @@ import SnapKit
 
 class FMAccountSelectView: UIView {
     
+    var confirmBlock: (([Int])->())?
+    
+    let viewModel = FMAccountSelectViewModel()
+    
     lazy var contentView: UIView = {
         let view = UIView()
         view.backgroundColor = .black.withAlphaComponent(0.2)
@@ -29,10 +33,19 @@ class FMAccountSelectView: UIView {
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .bold)
+        label.font = .systemFont(ofSize: 18, weight: .medium)
         label.textColor = .black
         label.text = "请选择账本"
         return label
+    }()
+    
+    lazy var donebutton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("确定", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 16)
+        btn.addTarget(self, action: #selector(doneAction), for: .touchUpInside)
+        return btn
     }()
     
     lazy var tableView: UITableView = {
@@ -46,6 +59,8 @@ class FMAccountSelectView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         makeUI()
+        bindViewModel()
+        viewModel.query()
     }
     
     required init?(coder: NSCoder) {
@@ -54,6 +69,11 @@ class FMAccountSelectView: UIView {
     
     @objc func dismiss() {
         removeFromSuperview()
+    }
+    
+    @objc func doneAction() {
+        confirmBlock?(viewModel.selectedIds())
+        dismiss()
     }
 
     override func willMove(toSuperview newSuperview: UIView?) {
@@ -73,11 +93,18 @@ class FMAccountSelectView: UIView {
             super.removeFromSuperview()
         })
     }
+    
+    func bindViewModel() {
+        viewModel.loadDataBlock = { [weak self] in
+            self?.tableView.reloadData()
+        }
+    }
 
     func makeUI() {
         addSubview(contentView)
         addSubview(containerView)
         containerView.addSubview(titleLabel)
+        containerView.addSubview(donebutton)
         containerView.addSubview(tableView)
         
         contentView.snp.makeConstraints { make in
@@ -90,6 +117,13 @@ class FMAccountSelectView: UIView {
             make.height.equalTo(30)
         }
         
+        donebutton.snp.makeConstraints { make in
+            make.centerY.equalTo(titleLabel)
+            make.right.equalToSuperview().offset(-10)
+            make.width.equalTo(60)
+            make.height.equalTo(40)
+        }
+        
         tableView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(10)
             make.left.bottom.right.equalToSuperview()
@@ -100,17 +134,21 @@ class FMAccountSelectView: UIView {
 extension FMAccountSelectView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return viewModel.numberOfRows()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.selectionStyle = .none
-        cell.textLabel?.text = "hello"
-        if indexPath.row == 0 {
-            cell.accessoryType = .checkmark
-        }
+        let model = viewModel.datasource[indexPath.row]
+        cell.textLabel?.text = model.account.name
+        cell.accessoryType = model.selected ? .checkmark : .none
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let model = viewModel.datasource[indexPath.row]
+        model.selected = !model.selected
+        tableView.reloadData()
+    }
 }

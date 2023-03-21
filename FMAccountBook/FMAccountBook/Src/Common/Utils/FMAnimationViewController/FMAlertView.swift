@@ -16,6 +16,7 @@ class FMAlertView: FMBaseAnimationView {
         label.font = .systemFont(ofSize: 16, weight: .bold)
         label.textColor = .black
         label.numberOfLines = 0
+        label.textAlignment = .center
         return label
     }()
     
@@ -24,6 +25,7 @@ class FMAlertView: FMBaseAnimationView {
         label.font = .systemFont(ofSize: 14)
         label.textColor = .black
         label.numberOfLines = 0
+        label.textAlignment = .center
         return label
     }()
     
@@ -36,7 +38,7 @@ class FMAlertView: FMBaseAnimationView {
     lazy var cancelButton: UIButton = {
         let btn = UIButton()
         btn.setTitleColor(.black, for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 14)
+        btn.titleLabel?.font = .systemFont(ofSize: 16)
         btn.addTarget(self, action: #selector(cacnelAction), for: .touchUpInside)
         return btn
     }()
@@ -50,13 +52,14 @@ class FMAlertView: FMBaseAnimationView {
     lazy var doneButton: UIButton = {
         let btn = UIButton()
         btn.setTitleColor(.black, for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 14)
+        btn.titleLabel?.font = .systemFont(ofSize: 16)
         btn.addTarget(self, action: #selector(doneAction), for: .touchUpInside)
         return btn
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .white
         layer.cornerRadius = 8
         layer.masksToBounds = true
         makeUI()

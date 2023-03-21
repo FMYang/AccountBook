@@ -21,6 +21,23 @@ class FMBookVC: UIViewController {
         return view
     }()
     
+    lazy var emptyView: UIView = {
+        let view = UIView()
+        view.isHidden = true
+        
+        let label = UILabel()
+        label.textColor = UIColor.gray.withAlphaComponent(0.5)
+        label.text = "暂无数据"
+        label.textAlignment = .center
+        label.numberOfLines = 3
+        label.font = .systemFont(ofSize: 14)
+        view.addSubview(label)
+        label.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = bgColor
@@ -34,6 +51,7 @@ class FMBookVC: UIViewController {
     
     func bindViewModel() {
         viewModel.refreshBlock = { [weak self] in
+            self?.emptyView.isHidden = (self?.viewModel.datasource.count ?? 0) > 0 ? true : false
             self?.tableView.reloadData()
         }
     }
@@ -53,8 +71,14 @@ class FMBookVC: UIViewController {
     
     func makeUI() {
         view.addSubview(tableView)
+        view.addSubview(emptyView)
+        
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+        
+        emptyView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
 }
@@ -70,7 +94,7 @@ extension FMBookVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! FMBookCell
-        cell.config(model: viewModel.data(indexPath: indexPath))
+        cell.config(model: viewModel.model(indexPath: indexPath))
         return cell
     }
     
@@ -102,5 +126,11 @@ extension FMBookVC: UITableViewDataSource, UITableViewDelegate {
  
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         viewModel.delete(indexPath: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let model = viewModel.model(indexPath: indexPath) as FMAccount
+        let vc = FMBookDetailVC(model: model)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

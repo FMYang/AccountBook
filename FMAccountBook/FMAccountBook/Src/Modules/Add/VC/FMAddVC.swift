@@ -22,6 +22,7 @@ class FMAddVC: UIViewController {
     }
     var selectedCategory: TradeCategory = .dining
     var addBlock: (()->())?
+    var selectAccountIds: [Int] = []
     
     lazy var topView: UIView = {
         let view = UIView()
@@ -59,7 +60,6 @@ class FMAddVC: UIViewController {
     
     lazy var textfield: FMTextField = {
         let view = FMTextField()
-//        view.tintColor = .clear
         view.placeholder = "0.00"
         view.font = .systemFont(ofSize: 30, weight: .medium)
         view.textColor = .black
@@ -177,7 +177,19 @@ class FMAddVC: UIViewController {
         }
     }
     
-    @objc func confirmAction() {        
+    @objc func confirmAction() {
+        if selectAccountIds.count > 0 {
+            let recordId = FMAccountSelectViewModel.maxRecordId()
+            for accountId in selectAccountIds {
+                asyncCall {
+                    let model = FMAccount_Record()
+                    model.record_id = recordId + 1
+                    model.account_id = accountId
+                    DBManager.insert(object: model)
+                }
+            }
+        }
+        
         var dateString = String.currentDate(dateFormat: .date_en)
         let date_cn = String.currentDate(dateFormat: .date_cn)
         if let dateText = dateButton.titleLabel?.text, dateText != date_cn {
@@ -199,6 +211,7 @@ class FMAddVC: UIViewController {
     }
     
     @objc func dateAction() {
+        textfield.resignFirstResponder()
         let dateView = FMDatePickerView(frame: UIScreen.main.bounds)
         dateView.confirmBlock = { [weak self] year, month, day in
             let text = String(format: "%d年%02d月%02d日", year, month, day)
@@ -208,7 +221,14 @@ class FMAddVC: UIViewController {
     }
     
     @objc func accountAction() {
+        textfield.resignFirstResponder()
         let view = FMAccountSelectView(frame: UIScreen.main.bounds)
+        view.confirmBlock = { [weak self] accountIds in
+            if accountIds.count > 0 {
+                self?.selectAccountIds = accountIds
+                self?.accountButton.setTitle("已选择\(accountIds.count)个账本", for: .normal)
+            }
+        }
         navigationController?.view.addSubview(view)
     }
 
